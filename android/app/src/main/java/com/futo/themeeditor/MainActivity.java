@@ -19,6 +19,7 @@ import java.io.OutputStream;
 
 public class MainActivity extends Activity {
     private WebView webView;
+    private android.webkit.ValueCallback<android.net.Uri[]> filePathCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,31 @@ public class MainActivity extends Activity {
         settings.setAllowFileAccessFromFileURLs(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
 
-        webView.setWebViewClient(new WebViewClient());
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
+
+        // إعدادات فتح نافذة اختيار الملفات
+        webView.setWebChromeClient(new android.webkit.WebChromeClient() {
+            @Override
+            public boolean onShowFileChooser(WebView webView, android.webkit.ValueCallback<android.net.Uri[]> filePathCallback, android.webkit.WebChromeClient.FileChooserParams fileChooserParams) {
+                if (MainActivity.this.filePathCallback != null) {
+                    MainActivity.this.filePathCallback.onReceiveValue(null);
+                }
+                MainActivity.this.filePathCallback = filePathCallback;
+                android.content.Intent intent = fileChooserParams.createIntent();
+                try {
+                    MainActivity.this.startActivityForResult(intent, 1);
+                } catch (android.content.ActivityNotFoundException e) {
+                    MainActivity.this.filePathCallback = null;
+                    return false;
+                }
+                return true;
+            }
+        });
         webView.addJavascriptInterface(new WebAppInterface(), "AndroidBridge");
         // تفعيل تصحيح الأخطاء
         android.webkit.WebView.setWebContentsDebuggingEnabled(true);
@@ -81,6 +106,32 @@ public class MainActivity extends Activity {
                 runOnUiThread(() -> Toast.makeText(MainActivity.this,
                     "فشل الحفظ: " + e.getMessage(), Toast.LENGTH_LONG).show());
             }
+        }
+    }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
+        if (requestCode == 1) {
+            if (filePathCallback != null) {
+                android.net.Uri[] results = null;
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    if (data.getClipData() != null) {
+                        int count = data.getClipData().getItemCount();
+                        results = new android.net.Uri[count];
+                        for (int i = 0; i < count; i++) {
+                            results[i] = data.getClipData().getItemAt(i).getUri();
+                        }
+                    } else if (data.getData() != null) {
+                        results = new android.net.Uri[]{data.getData()};
+                    }
+                }
+                filePathCallback.onReceiveValue(results);
+                filePathCallback = null;
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
