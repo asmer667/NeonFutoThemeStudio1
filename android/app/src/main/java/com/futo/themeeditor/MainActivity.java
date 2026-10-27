@@ -36,6 +36,19 @@ public class MainActivity extends Activity {
 
         webView.setWebViewClient(new WebViewClient());
         webView.addJavascriptInterface(new WebAppInterface(), "AndroidBridge");
+        // تفعيل تصحيح الأخطاء
+        android.webkit.WebView.setWebContentsDebuggingEnabled(true);
+
+        // طباعة أخطاء الكونسول
+        webView.setWebChromeClient(new android.webkit.WebChromeClient() {
+            @Override
+            public boolean onConsoleMessage(android.webkit.ConsoleMessage cm) {
+                android.util.Log.e("FUTODEBUG", cm.message() + " -- Line " + cm.lineNumber());
+                return true;
+            }
+        });
+
+        // تحميل الصفحة الرئيسية
         webView.loadUrl("file:///android_asset/www/index.html");
     }
 

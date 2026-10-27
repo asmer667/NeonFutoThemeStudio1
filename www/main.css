@@ -1182,3 +1182,30 @@ a {
 a:visited {
 	color: rgb(231, 170, 255);
 }
+/* === Mobile Responsive Adjustments === */
+@media (max-width: 768px) {
+    body { font-size: 13px !important; }
+    .menu-bar, .tabs {
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        flex-wrap: nowrap !important;
+    }
+    button, .button {
+        padding: 4px 8px !important;
+        font-size: 12px !important;
+    }
+    .workcanvas {
+        width: 100% !important;
+        height: calc(100vh - 100px) !important;
+    }
+    .window {
+        width: 95vw !important;
+        max-width: 95vw !important;
+        left: 2.5vw !important;
+        top: 5vh !important;
+        max-height: 90vh !important;
+        overflow-y: auto !important;
+    }
+}
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
