@@ -1,0 +1,11 @@
+/* إخفاء شريط المحرر العلوي والسفلي القديم */
+body > header, body > nav, body > .top-bar, body > .tabs-bar {
+    display: none !important;
+}
+
+/* التأكد من أن المحتوى يأخذ كامل الشاشة */
+.main-content, .editor-area {
+    height: 100vh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}

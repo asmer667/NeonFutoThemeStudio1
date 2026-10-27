@@ -15,9 +15,15 @@ android {
         versionName = "1.0"
     }
 
+    // إعدادات تصغير الحجم (Release)
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -45,6 +51,5 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended")
-    // WebView dependency
     implementation("androidx.webkit:webkit:1.10.0")
 }

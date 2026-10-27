@@ -1,4 +1,4 @@
-name: Build APK (Native Kotlin)
+name: Build Release APK
 
 on:
   push:
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node (لبناء المحرك الويب)
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -22,7 +22,7 @@ jobs:
           npm install
           npm run build
 
-      - name: Copy Web Engine to Android Assets
+      - name: Copy Web Assets
         run: |
           mkdir -p android-native/app/src/main/assets/www
           cp -r dist/* android-native/app/src/main/assets/www/
@@ -38,12 +38,26 @@ jobs:
         with:
           gradle-version: '8.2'
 
-      - name: Build APK
+      - name: Build Release APK
         working-directory: android-native
-        run: gradle assembleDebug --no-daemon
+        run: |
+          # بناء النسخة الموقعة (Release)
+          gradle assembleRelease --no-daemon
 
-      - name: Upload APK
+      - name: Sign APK (Debug Signing for Release)
+        run: |
+          # استخدام أدوات الأندرويد لتوقيع الـ APK
+          BUILD_TOOLS=$(ls $ANDROID_HOME/build-tools/ | tail -1)
+          APKSIGNER="$ANDROID_HOME/build-tools/$BUILD_TOOLS/apksigner"
+          
+          # نسخ الملف الأصلي
+          cp android-native/app/build/outputs/apk/release/app-release-unsigned.apk android-native/app/build/outputs/apk/release/app-release-signed.apk
+          
+          # توقيع الملف (باستخدام مفتاح التصحيح الافتراضي أو المفتاح الذي أنشأناه)
+          $APKSIGNER sign --ks android-native/release.keystore --ks-pass pass:123456 --key-pass pass:123456 --ks-key-alias futo_key android-native/app/build/outputs/apk/release/app-release-signed.apk
+
+      - name: Upload Release APK
         uses: actions/upload-artifact@v4
         with:
-          name: futo-native-studio-debug
-          path: android-native/app/build/outputs/apk/debug/app-debug.apk
+          name: futo-theme-studio-release
+          path: android-native/app/build/outputs/apk/release/app-release-signed.apk
