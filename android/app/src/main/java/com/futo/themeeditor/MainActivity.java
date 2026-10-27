@@ -37,6 +37,8 @@ public class MainActivity extends Activity {
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccessFromFileURLs(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
+        settings.setCacheMode(WebSettings.LOAD_DEFAULT); // استخدام الكاش عند توفر النت
+        settings.setLoadsImagesAutomatically(true);
 
         // تفعيل تصحيح الأخطاء
         WebView.setWebContentsDebuggingEnabled(true);

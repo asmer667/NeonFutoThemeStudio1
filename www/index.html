@@ -1,12 +1,51 @@
 <!DOCTYPE html>
-<html translate="no">
-    <head>
-        <link href="main.css" rel="stylesheet" />
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-		<title>Theme Editor for FUTO Keyboard</title>
-    </head>
-    <body>
-        <div id="__core"></div>
-        <script src="js/main.js"></script>
-    </body>
+<html translate="no" lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="main.css" rel="stylesheet" />
+    <link href="mobile-theme.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>FUTO Theme Studio</title>
+</head>
+<body>
+    <!-- الشريط العلوي -->
+    <header class="top-bar">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <i class="fa-solid fa-keyboard" style="color: #a78bfa; font-size: 20px;"></i>
+            <h1 data-i18n="title">استوديو الثيمات</h1>
+        </div>
+        <button id="lang-toggle" class="lang-btn" onclick="toggleLanguage()">EN</button>
+    </header>
+
+    <!-- شريط التبويبات (يتم ربطه لاحقاً مع المحرر الأساسي) -->
+    <div class="tabs-bar">
+        <button class="tab-btn active" data-i18n="matchrules">المطابقات</button>
+        <button class="tab-btn" data-i18n="assets">الأصول</button>
+        <button class="tab-btn" data-i18n="colors">الألوان</button>
+        <button class="tab-btn" data-i18n="config">الإعدادات</button>
+    </div>
+
+    <!-- مساحة المحرر الأساسية -->
+    <div id="__core" class="main-content"></div>
+
+    <!-- الشريط السفلي -->
+    <nav class="bottom-nav">
+        <div class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span data-i18n="home">الرئيسية</span></div>
+        <div class="nav-item active"><i class="fa-solid fa-palette nav-icon"></i><span data-i18n="editor">المحرر</span></div>
+        <div class="nav-item"><i class="fa-solid fa-eye nav-icon"></i><span data-i18n="preview">المعاينة</span></div>
+        <div class="nav-item"><i class="fa-solid fa-download nav-icon"></i><span data-i18n="import">استيراد</span></div>
+        <div class="nav-item"><i class="fa-solid fa-share-from-square nav-icon"></i><span data-i18n="export">تصدير</span></div>
+    </nav>
+
+    <!-- تحميل السكربتات -->
+    <script src="lang.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // تطبيق اللغة الافتراضية عند التحميل
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(applyLanguage, 500); 
+        });
+    </script>
+</body>
 </html>
