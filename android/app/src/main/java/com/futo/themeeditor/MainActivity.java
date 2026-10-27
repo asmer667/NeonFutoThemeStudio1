@@ -2,6 +2,7 @@ package com.futo.themeeditor;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,6 +10,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.webkit.JavascriptInterface;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -19,7 +22,7 @@ import java.io.OutputStream;
 
 public class MainActivity extends Activity {
     private WebView webView;
-    private android.webkit.ValueCallback<android.net.Uri[]> filePathCallback;
+    private ValueCallback<Uri[]> filePathCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,9 @@ public class MainActivity extends Activity {
         settings.setAllowFileAccessFromFileURLs(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
 
+        // تفعيل تصحيح الأخطاء
+        WebView.setWebContentsDebuggingEnabled(true);
+
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -42,30 +48,24 @@ public class MainActivity extends Activity {
             }
         });
 
-        // إعدادات فتح نافذة اختيار الملفات
-        webView.setWebChromeClient(new android.webkit.WebChromeClient() {
+        // دعم فتح نافذة اختيار الملفات
+        webView.setWebChromeClient(new WebChromeClient() {
             @Override
-            public boolean onShowFileChooser(WebView webView, android.webkit.ValueCallback<android.net.Uri[]> filePathCallback, android.webkit.WebChromeClient.FileChooserParams fileChooserParams) {
+            public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, FileChooserParams fileChooserParams) {
                 if (MainActivity.this.filePathCallback != null) {
                     MainActivity.this.filePathCallback.onReceiveValue(null);
                 }
                 MainActivity.this.filePathCallback = filePathCallback;
-                android.content.Intent intent = fileChooserParams.createIntent();
+                Intent intent = fileChooserParams.createIntent();
                 try {
                     MainActivity.this.startActivityForResult(intent, 1);
-                } catch (android.content.ActivityNotFoundException e) {
+                } catch (Exception e) {
                     MainActivity.this.filePathCallback = null;
                     return false;
                 }
                 return true;
             }
-        });
-        webView.addJavascriptInterface(new WebAppInterface(), "AndroidBridge");
-        // تفعيل تصحيح الأخطاء
-        android.webkit.WebView.setWebContentsDebuggingEnabled(true);
 
-        // طباعة أخطاء الكونسول
-        webView.setWebChromeClient(new android.webkit.WebChromeClient() {
             @Override
             public boolean onConsoleMessage(android.webkit.ConsoleMessage cm) {
                 android.util.Log.e("FUTODEBUG", cm.message() + " -- Line " + cm.lineNumber());
@@ -73,8 +73,35 @@ public class MainActivity extends Activity {
             }
         });
 
-        // تحميل الصفحة الرئيسية
+        // جسر الحفظ في Downloads
+        webView.addJavascriptInterface(new WebAppInterface(), "AndroidBridge");
+        
+        // تحميل الصفحة
         webView.loadUrl("file:///android_asset/www/index.html");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if (filePathCallback != null) {
+                Uri[] results = null;
+                if (resultCode == Activity.RESULT_OK && data != null) {
+                    if (data.getClipData() != null) {
+                        int count = data.getClipData().getItemCount();
+                        results = new Uri[count];
+                        for (int i = 0; i < count; i++) {
+                            results[i] = data.getClipData().getItemAt(i).getUri();
+                        }
+                    } else if (data.getData() != null) {
+                        results = new Uri[]{data.getData()};
+                    }
+                }
+                filePathCallback.onReceiveValue(results);
+                filePathCallback = null;
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     public class WebAppInterface {
@@ -106,32 +133,6 @@ public class MainActivity extends Activity {
                 runOnUiThread(() -> Toast.makeText(MainActivity.this,
                     "فشل الحفظ: " + e.getMessage(), Toast.LENGTH_LONG).show());
             }
-        }
-    }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data) {
-        if (requestCode == 1) {
-            if (filePathCallback != null) {
-                android.net.Uri[] results = null;
-                if (resultCode == Activity.RESULT_OK && data != null) {
-                    if (data.getClipData() != null) {
-                        int count = data.getClipData().getItemCount();
-                        results = new android.net.Uri[count];
-                        for (int i = 0; i < count; i++) {
-                            results[i] = data.getClipData().getItemAt(i).getUri();
-                        }
-                    } else if (data.getData() != null) {
-                        results = new android.net.Uri[]{data.getData()};
-                    }
-                }
-                filePathCallback.onReceiveValue(results);
-                filePathCallback = null;
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }
