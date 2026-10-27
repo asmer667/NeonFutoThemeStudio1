@@ -1,153 +1,81 @@
 /* ==========================================
-   FUTO Theme Studio - Mobile Portrait UI
+   FUTO Theme Studio - Clean Portrait UI
    ========================================== */
 :root {
-    --primary: #7c3aed;
-    --primary-light: #a78bfa;
+    --primary: #8b5cf6; /* بنفسجي */
     --bg-dark: #121212;
     --bg-panel: #1e1e1e;
     --text-main: #ffffff;
-    --text-muted: #a0a0a0;
 }
 
-body {
+html, body {
+    margin: 0; padding: 0;
     background-color: var(--bg-dark) !important;
     color: var(--text-main) !important;
-    font-family: system-ui, -apple-system, sans-serif;
-    direction: rtl; /* الافتراضي عربي */
-    margin: 0;
-    padding: 0;
     height: 100vh;
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
+    font-family: system-ui, sans-serif;
+    direction: rtl; /* عربي افتراضي */
 }
 
 /* الشريط العلوي */
 .top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 16px;
-    background: #18181b;
+    display: flex; justify-content: space-between; align-items: center;
+    background: #18181b; padding: 10px 15px; height: 50px; box-sizing: border-box;
     border-bottom: 1px solid #333;
-    height: 60px;
-    box-sizing: border-box;
 }
+.top-bar h1 { font-size: 16px; margin: 0; color: white; }
 
-.top-bar h1 {
-    font-size: 18px;
-    margin: 0;
-    color: #fff;
-}
-
-.lang-btn {
-    background: #27272a;
-    color: #fff;
-    border: 1px solid #444;
-    padding: 6px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* شريط التبويبات (المطابقات، الأصول، الألوان...) */
-.tabs-bar {
-    display: flex;
-    overflow-x: auto;
-    background: var(--bg-panel);
+/* شريط التبويبات الرئيسي */
+.main-tabs {
+    display: flex; background: var(--bg-panel); padding: 5px;
     border-bottom: 1px solid #333;
-    padding: 8px;
-    gap: 8px;
-    white-space: nowrap;
 }
-
-.tab-btn {
-    background: transparent;
-    color: var(--text-muted);
-    border: none;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: 0.2s;
+.main-tabs .tab {
+    flex: 1; text-align: center; padding: 8px; color: #a0a0a0;
+    border-radius: 8px; font-size: 14px; cursor: pointer;
 }
+.main-tabs .tab.active { background: var(--primary); color: white; }
 
-.tab-btn.active {
-    background: var(--primary);
-    color: white;
-}
-
-/* مساحة العمل الرئيسية */
-.main-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-    padding-bottom: 80px; /* مساحة للشريط السفلي */
-}
-
-/* لوحات (Panels) */
-.panel {
-    background: var(--bg-panel);
-    border-radius: 12px;
-    padding: 16px;
-    margin-bottom: 16px;
-    border: 1px solid #333;
-}
-
-.panel-header {
+/* الهيكل الرئيسي (قائمة جانبية + محتوى) */
+.app-layout {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 12px;
+    height: calc(100vh - 105px); /* طرح ارتفاع الشريط العلوي والسفلي */
 }
 
-.add-btn {
-    background: var(--primary);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    width: 32px;
-    height: 32px;
-    font-size: 20px;
-    cursor: pointer;
+/* القائمة الجانبية اليسرى (أدوات) */
+.sidebar-tools {
+    width: 50px; background: #1a1a1a; border-left: 1px solid #333;
+    display: flex; flex-direction: column; align-items: center; padding-top: 10px; gap: 15px;
 }
+.sidebar-tools .tool-icon {
+    color: #a0a0a0; font-size: 20px; padding: 10px; border-radius: 8px; cursor: pointer;
+}
+.sidebar-tools .tool-icon.active { background: #333; color: white; }
+
+/* مساحة المحرر (يتم حقن المحرر هنا) */
+.editor-area {
+    flex: 1; overflow-y: auto; position: relative;
+    /* إخفاء شريط القوائم القديم */
+}
+.editor-area header, .editor-area .sidebar { display: none !important; }
 
 /* الشريط السفلي */
 .bottom-nav {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    background: #18181b;
-    border-top: 1px solid #333;
-    height: 65px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 1000;
+    display: flex; justify-content: space-around; align-items: center;
+    background: #18181b; border-top: 1px solid #333; height: 55px;
+    position: fixed; bottom: 0; width: 100%; z-index: 100;
 }
-
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: var(--text-muted);
-    font-size: 12px;
-    cursor: pointer;
+.bottom-nav .nav-item {
+    display: flex; flex-direction: column; align-items: center;
+    color: #a0a0a0; font-size: 11px; cursor: pointer;
 }
+.bottom-nav .nav-item.active { color: var(--primary); }
+.bottom-nav .nav-item i { font-size: 18px; margin-bottom: 4px; }
 
-.nav-item.active {
-    color: var(--primary-light);
-}
-
-.nav-icon {
-    font-size: 20px;
-    margin-bottom: 4px;
-}
-
-/* إخفاء القوائم الجانبية القديمة */
-.sidebar, .left-toolbar {
-    display: none !important;
+/* تنسيق النوافذ المنبثقة (التي تفتح فوق المحرر) */
+.window {
+    background: var(--bg-panel) !important; border: 1px solid #444 !important;
+    border-radius: 12px !important; color: white !important;
+    max-height: 80vh !important; overflow-y: auto !important;
 }

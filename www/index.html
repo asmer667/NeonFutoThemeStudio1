@@ -11,41 +11,53 @@
 <body>
     <!-- الشريط العلوي -->
     <header class="top-bar">
-        <div style="display:flex; align-items:center; gap:10px;">
-            <i class="fa-solid fa-keyboard" style="color: #a78bfa; font-size: 20px;"></i>
-            <h1 data-i18n="title">استوديو الثيمات</h1>
+        <div style="display:flex; align-items:center; gap:8px;">
+            <i class="fa-solid fa-keyboard" style="color: #8b5cf6;"></i>
+            <h1>FUTO THEME STUDIO</h1>
         </div>
-        <button id="lang-toggle" class="lang-btn" onclick="toggleLanguage()">EN</button>
+        <button id="lang-toggle" class="lang-btn" onclick="toggleLanguage()" style="background:#333; color:white; border:none; padding:5px 10px; border-radius:15px;">عربي</button>
     </header>
 
-    <!-- شريط التبويبات (يتم ربطه لاحقاً مع المحرر الأساسي) -->
-    <div class="tabs-bar">
-        <button class="tab-btn active" data-i18n="matchrules">المطابقات</button>
-        <button class="tab-btn" data-i18n="assets">الأصول</button>
-        <button class="tab-btn" data-i18n="colors">الألوان</button>
-        <button class="tab-btn" data-i18n="config">الإعدادات</button>
+    <!-- التبويبات الرئيسية -->
+    <div class="main-tabs">
+        <div class="tab active">المطابقات</div>
+        <div class="tab">الأصول</div>
+        <div class="tab">الألوان</div>
+        <div class="tab">الإعدادات</div>
     </div>
 
-    <!-- مساحة المحرر الأساسية -->
-    <div id="__core" class="main-content"></div>
+    <!-- الهيكل -->
+    <div class="app-layout">
+        <!-- القائمة الجانبية (الأدوات) -->
+        <div class="sidebar-tools">
+            <i class="fa-solid fa-hand tool-icon"></i>
+            <i class="fa-solid fa-magnifying-glass tool-icon"></i>
+            <i class="fa-solid fa-arrow-pointer tool-icon active"></i>
+            <i class="fa-solid fa-crop-simple tool-icon"></i>
+            <i class="fa-solid fa-pen tool-icon"></i>
+        </div>
+
+        <!-- مساحة المحرر الأساسي -->
+        <div id="__core" class="editor-area"></div>
+    </div>
 
     <!-- الشريط السفلي -->
     <nav class="bottom-nav">
-        <div class="nav-item"><i class="fa-solid fa-house nav-icon"></i><span data-i18n="home">الرئيسية</span></div>
-        <div class="nav-item active"><i class="fa-solid fa-palette nav-icon"></i><span data-i18n="editor">المحرر</span></div>
-        <div class="nav-item"><i class="fa-solid fa-eye nav-icon"></i><span data-i18n="preview">المعاينة</span></div>
-        <div class="nav-item"><i class="fa-solid fa-download nav-icon"></i><span data-i18n="import">استيراد</span></div>
-        <div class="nav-item"><i class="fa-solid fa-share-from-square nav-icon"></i><span data-i18n="export">تصدير</span></div>
+        <div class="nav-item"><i class="fa-solid fa-house"></i><span>الرئيسية</span></div>
+        <div class="nav-item active"><i class="fa-solid fa-palette"></i><span>المحرر</span></div>
+        <div class="nav-item"><i class="fa-solid fa-eye"></i><span>المعاينة</span></div>
+        <div class="nav-item"><i class="fa-solid fa-download"></i><span>استيراد</span></div>
+        <div class="nav-item"><i class="fa-solid fa-share-from-square"></i><span>تصدير</span></div>
     </nav>
 
-    <!-- تحميل السكربتات -->
-    <script src="lang.js"></script>
     <script src="js/main.js"></script>
     <script>
-        // تطبيق اللغة الافتراضية عند التحميل
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(applyLanguage, 500); 
-        });
+        // زر تبديل اللغة (بسيط)
+        function toggleLanguage() {
+            const isAr = document.documentElement.dir === 'rtl';
+            document.documentElement.dir = isAr ? 'ltr' : 'rtl';
+            document.getElementById('lang-toggle').innerText = isAr ? 'EN' : 'عربي';
+        }
     </script>
 </body>
 </html>
