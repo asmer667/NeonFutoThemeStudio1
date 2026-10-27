@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <title>ThemeCore example</title>
+</head>
+<body>
+  <script src="ThemeCore.js"></script>
+
+  <input type="file" id="fileInput" />
+  <img id="resultimg" />
+  <script>
+    document.getElementById("fileInput").oninput = (ev) => {
+      const file = ev.target.files[0];
+
+      // Note: this leaks createObjectURLs internally rn
+      if(file) {
+        ThemeCore.generateScreenshot(file, "QWERTY").then((blob) => {
+            document.getElementById("resultimg").src = URL.createObjectURL(blob);
+        }).catch((err) => alert(err));
+      }
+    }
+  </script>
+</body>
+</html>

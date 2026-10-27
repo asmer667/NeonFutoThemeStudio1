@@ -1,0 +1,1738 @@
+==================== شجرة الملفات الكاملة ====================
+./.gitignore
+./LICENSE.md
+./README.md
+./core/assets.ts
+./core/demo.html
+./core/dynamic-colors.ts
+./core/icons/arrow-left.svg
+./core/icons/arrow-right.svg
+./core/icons/chevron_right.svg
+./core/icons/delete.svg
+./core/icons/emoji.svg
+./core/icons/enter.svg
+./core/icons/globe.svg
+./core/icons/mic_fill.svg
+./core/icons/numpad.svg
+./core/icons/shift.svg
+./core/icons/space.svg
+./core/icons/space_2.svg
+./core/icons/undo.svg
+./core/index.cjs
+./core/keyboard/color.ts
+./core/keyboard/density.ts
+./core/keyboard/layouts/layouts.js
+./core/keyboard/ninepatch.js
+./core/keyboard/qualifiers.js
+./core/keyboard/render.ts
+./core/keyboard/types/Theme.ts
+./core/package-lock.json
+./core/package.json
+./core/toml.ts
+./core/vendor/UZIP.js
+./eslint.config.js
+./package-lock.json
+./package.json
+./project_report.txt
+./src/color.ts
+./src/db.ts
+./src/event.js
+./src/keyboard/qualifiers-input.jsx
+./src/main.js
+./src/material/render.js
+./src/panels/assetconfig.jsx
+./src/panels/assets.jsx
+./src/panels/colors.jsx
+./src/panels/config.jsx
+./src/panels/history.jsx
+./src/panels/main.jsx
+./src/panels/metadata.jsx
+./src/panels/tabs.jsx
+./src/panels/tools.jsx
+./src/panels/upper.jsx
+./src/panels/workcanvas.jsx
+./src/quickh.js
+./src/state.js
+./src/systems/assets.ts
+./src/systems/toml.ts
+./src/ui.js
+./src/ui/menu.jsx
+./src/windows/AboutWindow.jsx
+./src/windows/AssetPickerWindow.jsx
+./src/windows/ColorPickerWindow.jsx
+./src/windows/ExportWindow.jsx
+./src/windows/GenerateRectangleWindow.jsx
+./src/windows/GoogleFontPickerWindow.jsx
+./src/windows/KeyInfoWindow.jsx
+./src/windows/NewProjectWindow.jsx
+./src/windows/WindowWrapper.jsx
+./www/Roboto-Regular.ttf
+./www/example_border.png
+./www/example_border_9.png
+./www/example_icon.png
+./www/fonts.json
+./www/index.html
+./www/main.css
+./www/missing.png
+
+==================== حجم كل ملف ====================
+2.9K ./core/icons/arrow-left.svg
+2.9K ./core/icons/arrow-right.svg
+251 ./core/icons/chevron_right.svg
+617 ./core/icons/delete.svg
+745 ./core/icons/emoji.svg
+1.9K ./core/icons/enter.svg
+3.5K ./core/icons/globe.svg
+1.2K ./core/icons/mic_fill.svg
+1.9K ./core/icons/numpad.svg
+392 ./core/icons/shift.svg
+101 ./core/icons/space.svg
+321 ./core/icons/space_2.svg
+432 ./core/icons/undo.svg
+114K ./core/keyboard/layouts/layouts.js
+5.1K ./core/keyboard/types/Theme.ts
+1.2K ./core/keyboard/color.ts
+187 ./core/keyboard/density.ts
+4.8K ./core/keyboard/ninepatch.js
+5.0K ./core/keyboard/qualifiers.js
+32K ./core/keyboard/render.ts
+41K ./core/vendor/UZIP.js
+5.9K ./core/assets.ts
+603 ./core/demo.html
+7.0K ./core/dynamic-colors.ts
+924 ./core/index.cjs
+62K ./core/package-lock.json
+793 ./core/package.json
+6.4K ./core/toml.ts
+15K ./src/keyboard/qualifiers-input.jsx
+9.7K ./src/material/render.js
+14K ./src/panels/assetconfig.jsx
+6.8K ./src/panels/assets.jsx
+11K ./src/panels/colors.jsx
+6.7K ./src/panels/config.jsx
+1.4K ./src/panels/history.jsx
+1.9K ./src/panels/main.jsx
+3.1K ./src/panels/metadata.jsx
+1.2K ./src/panels/tabs.jsx
+989 ./src/panels/tools.jsx
+7.5K ./src/panels/upper.jsx
+25K ./src/panels/workcanvas.jsx
+5.9K ./src/systems/assets.ts
+1.7K ./src/systems/toml.ts
+5.7K ./src/ui/menu.jsx
+5.5K ./src/windows/AboutWindow.jsx
+2.0K ./src/windows/AssetPickerWindow.jsx
+8.3K ./src/windows/ColorPickerWindow.jsx
+23K ./src/windows/ExportWindow.jsx
+4.6K ./src/windows/GenerateRectangleWindow.jsx
+6.9K ./src/windows/GoogleFontPickerWindow.jsx
+4.4K ./src/windows/KeyInfoWindow.jsx
+731 ./src/windows/NewProjectWindow.jsx
+1.6K ./src/windows/WindowWrapper.jsx
+3.1K ./src/color.ts
+4.0K ./src/db.ts
+456 ./src/event.js
+151 ./src/main.js
+2.7K ./src/quickh.js
+3.5K ./src/state.js
+3.8K ./src/ui.js
+156K ./www/Roboto-Regular.ttf
+17K ./www/example_border.png
+26K ./www/example_border_9.png
+2.3K ./www/example_icon.png
+335K ./www/fonts.json
+535 ./www/index.html
+19K ./www/main.css
+276 ./www/missing.png
+2.2K ./.gitignore
+1.5K ./LICENSE.md
+1.7K ./README.md
+783 ./eslint.config.js
+59K ./package-lock.json
+733 ./package.json
+1.9K ./project_report.txt
+
+==================== package.json ====================
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "esbuild src/main.js --bundle --servedir=www --outdir=www/js --sourcemap --jsx-factory=Ui.quickh",
+    "build": "rm -rf dist && mkdir -p dist && cp -r www/* dist/ && esbuild src/main.js --bundle --minify --target=es2015 --outdir=dist/js --jsx-factory=Ui.quickh",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "lint:report": "eslint . --format stylish"
+  },
+  "dependencies": {
+    "@material/material-color-utilities": "^0.4.0",
+    "idb": "^8.0.3",
+    "smol-toml": "^1.9.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "esbuild": "0.28.0",
+    "eslint": "^10.8.0",
+    "globals": "^17.9.0",
+    "typescript-eslint": "^8.66.0"
+  }
+}
+
+==================== index.html ====================
+غير موجود
+
+==================== ملفات الإعداد ====================
+
+==================== محتوى ملفات src الرئيسية ====================
+--- src/keyboard/qualifiers-input.jsx ---
+import Ui from "../ui";
+import State from "../state";
+import WorkCanvas from "../panels/workcanvas";
+
+const VALID_TOKENS = new Set([
+	'normal','functional','action','spacebar',
+	'pressed','popup',
+	'stickyoff','stickyon','nobackground',
+	'morekey','morekeysbox','code','label','icon','ratio','outputtext',
+	'layout','row','col','rowmod','colmod','layer'
+]);
+
+const KEY_KIND_TOKENS = new Set([
+	"normal","functional","action","spacebar","stickyoff","stickyon","nobackground","morekey","morekeysbox"
+]);
+
+const ICON_NAMES = new Set([
+	'shift_key', 'shift_key_shifted', 'delete_key', 'settings_key',
+	'space_key', 'space_key_for_number_layout', 'enter_key',
+	'go_key', 'search_key', 'send_key', 'next_key', 'done_key',
+	'previous_key', 'tab_key', 'zwnj_key', 'zwj_key', 'numpad',
+	'action_emoji', 'action_settings', 'action_paste',
+	'action_text_edit', 'action_themes', 'action_undo', 'action_redo',
+	'action_voice_input', 'action_system_voice_input',
+	'action_switch_language', 'action_clipboard_history',
+	'action_mem_dbg', 'action_cut', 'action_copy',
+	'action_select_all', 'action_more', 'action_bugs',
+	'action_keyboard_modes', 'action_up', 'action_down',
+	'action_left', 'action_right'
+]);
+
+const TOKEN_DESCRIPTIONS = {
+	'normal': '- Typical light-colored letter keys (qwerty)',
+	'functional': '- Darker-colored functional keys (shift, comma)',
+	'action': '- Bright enter key',
+	'spacebar': '- Light-colored spacebar',
+	'pressed': '- Key is pressed',
+	'popup': '- Key\'s popup',
+	'stickyoff': '- Shift key without sticky',
+	'stickyon': '- Shift key toggled',
+	'nobackground': '- Keys without background (number row)',
+	'morekey': '- Focused morekey',
+	'morekeysbox': '- More keys box',
+	'code': '%d - Match key by code ID',
+	'label': '%s - Match key by its label',
+	'icon': '%s - Match key by its icon',
+	'outputtext': '%s - Match key by its output text',
+	'layout': '%s - Match keys by keyboard layout',
+	'row': '%d - Match keys by row index',
+	'col': '%d - Match keys by column index',
+
+--- src/material/render.js ---
+function rr(ctx, x, y, w, h, r) {
+	ctx.beginPath();
+	ctx.moveTo(x + r, y);
+	ctx.lineTo(x + w - r, y);
+	ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+	ctx.lineTo(x + w, y + h - r);
+	ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+	ctx.lineTo(x + r, y + h);
+	ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+	ctx.lineTo(x, y + r);
+	ctx.quadraticCurveTo(x, y, x + r, y);
+	ctx.closePath();
+}
+
+export function drawMaterialColorDemo(colors, ctx, W, H) {
+	ctx.fillStyle = '#FFFFFF';
+	ctx.fillRect(0, 0, W, H);
+
+	ctx.fillStyle = colors.background;
+	ctx.fillRect(0, 0, W, H);
+
+	ctx.fillStyle = colors.onBackground;
+	ctx.font = 'bold 16px sans-serif';
+	ctx.textAlign = 'left';
+	ctx.textBaseline = 'top';
+	ctx.fillText('M3 color preview. Make sure everything is readable and has adequate contrast!', 16, 12);
+
+	const margin = 16;
+	const gap = 12;
+	const top = 44;
+	const cols = 4;
+	const rows = 3;
+	const cw = (W - margin * 2 - gap * (cols - 1)) / cols;
+	const ch = (H - top - margin - gap * (rows - 1)) / rows;
+
+	function cell(c, r, wc, hc) {
+		return {
+			x: margin + c * (cw + gap),
+			y: top + r * (ch + gap),
+			w: (wc || 1) * cw + (wc > 1 ? (wc - 1) * gap : 0),
+			h: (hc || 1) * ch + (hc > 1 ? (hc - 1) * gap : 0)
+		};
+	}
+
+	// --- Row 0 ---
+
+	// Primary
+	let p = cell(0, 0);
+	rr(ctx, p.x, p.y, p.w, p.h, 12);
+	ctx.fillStyle = colors.primaryContainer;
+
+--- src/panels/assetconfig.jsx ---
+import Ui from "../ui";
+import State from "../state";
+import WorkCanvas from './workcanvas';
+import { colorField } from "./colors";
+import AssetStore from "../systems/assets";
+import { checkImageSizeOk } from "./assets";
+
+const AssetConfigPanel = {
+	build: buildAssetConfigPanel
+};
+
+function evaluateExpression(input, oldValue) {
+	function run() {
+		const expr = input.value.trim();
+		if (!expr) return false;
+
+		const tokens = expr.match(/-?\d*\.?\d+|[+\-*/()]/g);
+		if (!tokens) return false;
+
+		const result = evaluate(tokens);
+		if (result !== null && isFinite(result)) {
+			input.value = result;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	function evaluate(tokens) {
+		const output = [];
+		const ops = [];
+		const prec = { '+': 1, '-': 1, '*': 2, '/': 2 };
+
+		for (const t of tokens) {
+			if (/\d$/.test(t)) {
+				output.push(parseFloat(t));
+			} else if (t === '(') {
+				ops.push(t);
+			} else if (t === ')') {
+				while (ops.length && ops[ops.length - 1] !== '(') {
+					output.push(ops.pop());
+				}
+				ops.pop();
+			} else {
+				while (ops.length && prec[ops[ops.length - 1]] >= prec[t]) {
+					output.push(ops.pop());
+				}
+				ops.push(t);
+			}
+		}
+
+--- src/panels/assets.jsx ---
+import Ui from "../ui";
+import makeTabbedPanel from './tabs';
+import State from "../state";
+import HistoryPanel from './history';
+import WorkCanvas from './workcanvas';
+import MetadataPanel from "./metadata";
+import AssetStore from "../systems/assets";
+import { getFileType } from "../../core/assets";
+
+const AssetsPanel = {
+	build: makeAssetsPanel,
+	openFilePicker: openFilePicker
+};
+
+export function openFilePicker(_ev) {
+	openFilePickerWithKind(undefined);
+}
+
+export function openFilePickerWithKind(kind) {
+	if(!State.isProjectLoaded) {
+		alert("Load a project first! File > New project...");
+		return;
+	}
+	AssetsPanel.lastPickerKind = kind;
+	Ui.id.picker.accept = (kind === "other") ? "image/*,font/*,.ttf,.otf" : "image/*";
+	Ui.id.picker.click();
+}
+
+export const imageSizeLimits = {
+	"background": 360,
+	"icon": 360,
+	"other": 2048
+};
+
+export const checkImageSizeOk = (file, kind) => new Promise((resolve, reject) => {
+	if(kind === "other") {
+		if(getFileType(file.name) !== "image") {
+			resolve();
+			return;
+		}
+	}
+	const limit = imageSizeLimits[kind];
+
+	const reader = new FileReader();
+	reader.onload = () => {
+		const img = new Image();
+		img.onload = () => {
+			const px = img.width * img.height;
+
+			if(px > (limit*limit)) {
+
+--- src/panels/colors.jsx ---
+import Ui from "../ui";
+import State from "../state";
+import WorkCanvas from "./workcanvas";
+import { DEFAULT_THEME } from '../../core/keyboard/types/Theme';
+import ColorPickerWindow from "../windows/ColorPickerWindow";
+import { HEXtoRGB } from "../../core/keyboard/color";
+import { fromHCT, toHCT, RGBtoHEX } from "../color";
+
+const ColorsPanel = {
+	build: colorsPanel,
+	elements: {}
+};
+
+const EV_COLOR = "colorEdited";
+export function colorField(name, event, colorPickState, get, preview, set) {
+	const updateCol = (_v) => {
+		const col = get();
+		if(col === undefined || col === null) return;
+
+		const el = colorPickState.element;
+		const elpar = el.parentElement;
+		el.value = col;
+
+		const isInherited = State.theme.internal.inheritedColors[name] === true;
+		if(isInherited) {
+			el.classList.add("inherited");
+			if(elpar.parentElement === Ui.id.manualColors) {
+				Ui.id.manualColors.removeChild(elpar);
+				Ui.id.autoColors.appendChild(elpar);
+			}
+		} else {
+			el.classList.remove("inherited");
+			if(elpar.parentElement === Ui.id.autoColors) {
+				Ui.id.autoColors.removeChild(elpar);
+				Ui.id.manualColors.appendChild(elpar);
+			}
+		}
+
+		el.dispatchEvent(new InputEvent("input"));
+	};
+	if(event) State.ev.listen(event, updateCol);
+	State.ev.listen(State.EV_LOADED, updateCol);
+
+	colorPickState.name = name;
+
+	return Ui.namespaced(colorPickState, "colorField", () => <div className="color-field">
+		<div type="color" className="color-input" style={`--color: ${get()}`} value={get()} onChange={(e) => {
+			set(e.target.value);
+		}} onInput={(e) => {
+			preview(e.target.value);
+
+--- src/panels/config.jsx ---
+import WorkCanvas from "./workcanvas";
+import Ui from "../ui";
+import State from "../state";
+import AssetStore from "../systems/assets";
+import { changeableFileImg } from "./upper";
+import GoogleFontPickerWindow from "../windows/GoogleFontPickerWindow";
+
+const EV_CONFIG_UPDATE = "configUpdated";
+const local = {};
+
+function updatePanel() {
+	local.borders.checked = State.theme.options.autoBorders;
+	local.centerHints.checked = State.theme.options.centerHints;
+	WorkCanvas.ev.emit("refresh", "config update");
+}
+
+function fileDragTarget(id, changeEvent, get, onSet) {
+	const el = <div id={id} className={`file highlight-on-drag-kind-other`} ondrop={e => {
+		local[id].classList.remove("dragover");
+		const assetName = e.dataTransfer.getData("editor/asset-id");
+		if(!assetName) return;
+		const asset = AssetStore.store[assetName];
+		if(!asset) return;
+		if(asset.meta.kind !== "other") return;
+
+		onSet(assetName);
+	}} ondragover={e => {
+		if (!e.dataTransfer.types.includes("editor/asset-id")
+				|| !e.dataTransfer.types.includes("editor/kind-other")) return;
+		e.preventDefault();
+		local[id].classList.add("dragover");
+		e.dataTransfer.dropEffect = "link";
+	}} ondragleave={e => {
+		e.preventDefault();
+		local[id].classList.remove("dragover");
+	}}>
+		{changeableFileImg("other", get()?.url, onSet)}
+		<p className="file-name">{get()?.name ?? "[none]"}</p>
+		<div style="flex: 1"></div>
+		<button onclick={() => {
+			onSet(undefined);
+		}}>{Ui.iconEl("xmark")}</button>
+	</div>
+
+	State.ev.listen([State.EV_LOADED, changeEvent, AssetStore.EV_IMG_LOADED], () => {
+		console.log(id, get());
+		el.getElementsByTagName("img")[0].src = get()?.runtime?.preview ?? "";
+		el.getElementsByTagName("p")[0].innerText = get()?.meta?.name ?? "[none]";
+	})
+
+
+--- src/panels/history.jsx ---
+import Ui from "../ui";
+import State from "../state";
+
+const HistoryPanel = {
+	build: historyPanel,
+};
+
+function historyPanel() {
+	State.ev.listen(State.EV_COMMAND, update);
+	return <div id="historyPanel">
+	
+	</div>
+}
+
+function jumpTo(command, needRedo) {
+	HistoryPanel.jumping = true;
+	if(needRedo) {
+		const redoIdx = State.redoableCommands.indexOf(command);
+		if(redoIdx == -1) return;
+		
+		
+		const numRedosNeeded = State.redoableCommands.length - redoIdx;
+		console.log("redo", redoIdx, State.redoableCommands.length, numRedosNeeded);
+		
+		for(let i=0; i<numRedosNeeded; i++) {
+			State.redo();
+		}
+	} else {
+		const undoIdx = State.commands.indexOf(command);
+		if(undoIdx == -1) return;
+		
+		const numUndosNeeded = State.commands.length - undoIdx - 1;
+		console.log("undo", undoIdx, State.commands.length, numUndosNeeded);
+		
+		for(let i=0; i<numUndosNeeded; i++) {
+			State.undo();
+		}
+	}
+	
+	HistoryPanel.jumping = false;
+	update();
+}
+
+function update() {
+	// debouncing
+	if(HistoryPanel.jumping === true) return;
+	
+	Ui.id.historyPanel.replaceChildren(<div className="historyItems">
+		{State.redoableCommands.map(v => <button className="redoable" onclick={_e => jumpTo(v, true)}>{v.name}</button>)}
+		{State.commands.toReversed().map((v, i) => <button className={`undoable ${i == 0 ? "top" : ""}`} onclick={_e => jumpTo(v, false)}>{v.name}</button>)}
+
+--- src/panels/main.jsx ---
+import Ui from "../ui";
+import ToolPanel from './tools';
+import UpperPanel from './upper';
+import WorkCanvas from './workcanvas';
+import AssetsPanel from './assets';
+
+const PanelManager = {
+	build: makeMainPanel,
+};
+
+function resizeVerticalFlexSplit() {
+	return <div style="width: 100%; height: 0.25rem; cursor: row-resize;"
+		onmousedown={e => {
+			const el = e.target;
+			const par = el.parentElement;
+			const prevEl = el.previousElementSibling;
+			const nextEl = el.nextElementSibling;
+				
+			const move = e => {
+				const splitGap = (e.clientY - par.offsetTop) / par.offsetHeight;
+					
+				prevEl.style.flex = splitGap;
+				nextEl.style.flex = 1.0 - splitGap;
+			}
+			const up = () => { removeEventListener('mousemove', move); removeEventListener('mouseup', up) }
+			addEventListener('mousemove', move); addEventListener('mouseup', up)
+
+			e.preventDefault();
+		}}>
+	</div>
+}
+
+function resizeHorizontalPxSplit() {
+	return <div style="width: 0.2rem; height: 100%; cursor: col-resize;"
+		onmousedown={e => {
+			const el = e.target;
+			const par = el.parentElement;
+			const prevEl = el.previousElementSibling;
+			const nextEl = el.nextElementSibling;
+				
+			const move = e => {
+				const splitGap = (e.clientX - par.offsetLeft) / par.offsetWidth;
+					
+				prevEl.style.flex = splitGap;
+				nextEl.style.flex = 1.0 - splitGap;
+			}
+			const up = () => { removeEventListener('mousemove', move); removeEventListener('mouseup', up) }
+			addEventListener('mousemove', move); addEventListener('mouseup', up)
+
+			e.preventDefault();
+
+--- src/panels/metadata.jsx ---
+import Ui from "../ui";
+import State from "../state";
+
+const EV_META_UPDATE = "metadataUpdated";
+
+function generateThemeId() {
+	const author = State.theme.author.toLowerCase().replace(/\W+/g, '');
+	const themeName = State.theme.name.replace(/\W/g, '').replace(/(?:^|\s|_|-)(\w)/g, (_, c) => c ? c.toUpperCase() : '');
+	const result = `p.${author}.${themeName}`;
+	return result;
+}
+
+export function buildMetadataPanel(registerListeners) {
+	const local = {};
+
+	function updatePanel() {
+		local.id.value = State.theme.id;
+		local.name.value = State.theme.name;
+		local.author.value = State.theme.author;
+		local.version.value = State.theme.version;
+
+		if(local.description)
+			local.description.value = State.theme.description;
+	}
+
+	function isValidRDNS(rdns) {
+		const pattern = /^[a-z][a-z0-9]*(\.[a-z][a-z0-9]*)+$/i;
+		return pattern.test(rdns) && rdns.length <= 253 && rdns.split('.').every(part => part.length <= 63);
+	}
+
+	function onParamChange(paramName, validifier) {
+		return (_ev) => {const oldValue = State.theme[paramName];
+			const newValue = local[paramName].value;
+			if(!validifier || validifier(newValue)) {
+				State.execute("Update metadata: " + paramName, () => {
+					State.theme[paramName] = newValue;
+				}, () => {
+					State.theme[paramName] = oldValue;
+				}, EV_META_UPDATE);
+			} else {
+				local[paramName].value = oldValue;
+			}
+			local[paramName].blur();
+		};
+	}
+
+	if(registerListeners === true) {
+		State.ev.listen(State.EV_LOADED, updatePanel);
+		State.ev.listen(EV_META_UPDATE, updatePanel);
+	}
+
+--- src/panels/tabs.jsx ---
+import Ui from "../ui";
+
+export const TabbedPanels = {};
+
+export default function makeTabbedPanel(name, tabs) {
+	let currentTab = 0;
+	let tabButtons = {};
+	let tabContents = {};
+	
+	let updateState = () => {
+		Object.values(tabButtons).forEach((v) => v.classList.remove("active"));
+		Object.values(tabContents).forEach((v) => v.style.display = "none");
+		
+		tabButtons[currentTab].classList.add("active");
+		tabContents[currentTab].style.display = "block";
+	}
+
+	TabbedPanels[name] = {
+		setTab: (to) => {
+			let tgt = -1;
+			for(let i=0; i<tabs.length; i++) {
+				if(tabs[i].name === to) {
+					tgt = i;
+					break;
+				}
+			}
+
+			if(tgt === -1) {
+				console.error("No such tab exists: " + to);
+				return;
+			}
+
+			currentTab = tgt;
+			updateState();
+		}
+	}
+	
+	return <div className="tabbed-panel" oncreate={ _el => updateState() }>
+		<div className="tab-switcher">
+			{ tabs.map((v, i) => <button oncreate={ el => tabButtons[i] = el } onclick={ _e => {currentTab = i; updateState();} }>{ v.name }</button>) }
+		</div>
+		<div className="content">
+			{ tabs.map((v, i) => <div className="tab" oncreate={ el => tabContents[i] = el }>{ v.content }</div>) }
+		</div>
+	</div>
+}
+
+--- src/panels/tools.jsx ---
+import Ev from "../event";
+import Ui from "../ui";
+
+const ToolPanel = {
+	build: makeToolPanel,
+
+	EV_TOOL_CHANGE: "toolChange",
+	ev: Ev.makeEventBus(),
+	activeTool: "pan",
+
+	setTool: (to) => {
+		ToolPanel.activeTool = to;
+		ToolPanel.ev.emit(ToolPanel.EV_TOOL_CHANGE, to);
+
+		for(const child of ToolPanel.el.children) {
+			if(child.name === to) {
+				child.classList.add("active");
+			} else {
+				child.classList.remove("active");
+			}
+		}
+	}
+};
+
+function toolButton(name, icon) {
+	return <button name={name} title={name} className={ToolPanel.activeTool === name ? "active" : ""} onclick={_e => ToolPanel.setTool(name)}>{Ui.iconEl(icon)}</button>
+}
+
+function makeToolPanel() {
+	return <div className="tool-panel" oncreate={el => {
+		ToolPanel.el = el;
+	}}>
+		{toolButton("pan", "hand")}
+		{toolButton("zoom", "magnifying-glass")}
+		{toolButton("interact", "arrow-pointer")}
+		{toolButton("crop", "crop-simple")}
+		{toolButton("inspect", "eyedropper")}
+	</div>
+}
+
+export default ToolPanel;
+
+--- src/panels/upper.jsx ---
+import Ui from "../ui";
+import State from "../state";
+import makeTabbedPanel from './tabs';
+import WorkCanvas from './workcanvas';
+import ColorsPanel from "./colors";
+import AssetConfigPanel from "./assetconfig";
+import ConfigPanel from "./config";
+import AssetStore from "../systems/assets";
+import { qualifierInput } from "../keyboard/qualifiers-input";
+import AssetPickerWindow from "../windows/AssetPickerWindow";
+
+const UpperPanel = {
+	build: makeUpperPanel,
+};
+
+
+const BordersPanel = {
+	build: borderContent,
+};
+
+const KIND_BACKGROUND = "background";
+const KIND_ICON = "icon";
+const EV_MATCHRULE = "matchrule";
+
+export function insertNewMatchrule(kind, idx, initial) {
+	if(!State.isProjectLoaded) {
+		alert("Load a project first! File > New project...");
+		return;
+	}
+
+	const obj = {
+		id: State.unique(),
+		selector: initial ?? "",
+		asset: ""
+	};
+	
+	const arr = (kind === KIND_ICON) ? State.theme.assets.icon : State.theme.assets.key;
+	State.execute(`Insert ${kind}`,
+		() => {
+			arr.splice(idx ?? 0, 0, obj);
+			State.ev.emit(EV_MATCHRULE);
+		},
+		() => {
+			const idx = arr.indexOf(obj);
+			if(idx != -1) {
+				arr.splice(idx, 1);
+			}
+			State.ev.emit(EV_MATCHRULE);
+		}
+	);
+
+--- src/panels/workcanvas.jsx ---
+import Ev from '../event';
+import Ui from "../ui";
+import Layouts from '../../core/keyboard/layouts/layouts';
+import State from '../state';
+import { initRenderContext, updateRenderContext, drawRenderContext, renderContextGetDetectedKeyInfo } from '../../core/keyboard/render';
+import { drawMaterialColorDemo } from '../material/render';
+import { TabbedPanels } from './tabs';
+import ToolPanel from './tools';
+import AssetStore from '../systems/assets';
+import { createNinePatch, drawNinePatch, getEffectiveForegroundTint } from '../../core/keyboard/ninepatch';
+import { displayKeyInfo } from '../windows/KeyInfoWindow';
+
+function makeMaterialTabObject() {
+	const result = {
+		tab: "material",
+		name: "Color Preview",
+		off: new OffscreenCanvas(1200, 500),
+		canClose: false
+	};
+	return result;
+}
+
+function makeKeyboardTabObject(name, layout) {
+	const result = {
+		tab: "keyboard",
+		name: name,
+		layout: layout,
+		off: new OffscreenCanvas(1, 1),
+		canClose: false
+	};
+	
+	result.ctx = result.off.getContext("2d");
+	
+	return result;
+}
+
+const WorkCanvas = {
+	ev: Ev.makeEventBus(),
+	build: makeWorkCanvas,
+	
+	currentTab: 0,
+	tabs: [],//[],
+	
+	grid: true,
+	
+	zoom: 1.0,
+	pan: [0.0, 0.0],
+	
+	resetZoom: resetZoom,
+	toggleGrid: toggleGrid,
+
+--- src/systems/assets.ts ---
+import { DEFAULT_ICONS, mergeDicts, Asset, BackgroundAsset, IconAsset, OtherAsset, AssetMeta, genUniqueName, getFileType, DefaultAssets } from "../../core/assets";
+
+const AssetStore = {
+	EV_FILE_ADDED: "fileAdded",
+	EV_IMG_LOADED: "imageLoaded",
+	EV_FILE_REMOVED: "fileRemoved",
+	store: {} as { [key: string]: Asset },
+
+	reset: () => {
+		Object.keys(AssetStore.store).forEach((v) => {
+			State.ev.emit(AssetStore.EV_FILE_REMOVED, v);
+			URL.revokeObjectURL(AssetStore.store[v].runtime.url);
+		});
+		AssetStore.store = {};
+		addBuiltInAssets();
+	},
+	add: addAsset,
+	remove: removeAsset,
+	update: updateAsset,
+	loadSaved: loadSavedAsset
+};
+
+async function createFontPreview(filename: string, url: string): Promise<[Blob, string]> {
+	const fontName = filename + "FontPreview";
+	const fontFace = new FontFace(fontName, `url("${url}")`);
+
+	await fontFace.load();
+
+	document.fonts.add(fontFace);
+	const canvas = document.createElement("canvas");
+	canvas.width = 64;
+	canvas.height = 64;
+	const ctx = canvas.getContext("2d");
+	if(!ctx) throw Error("No ctx2d");
+	ctx.fillStyle = "#fff";
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+	ctx.fillStyle = "#000";
+	ctx.font = `48px "${fontName}"`;
+	ctx.textBaseline = "middle";
+	ctx.textAlign = "center";
+	ctx.fillText("Aa", 32, 32);
+
+	const blob = (await new Promise((res) => canvas.toBlob(res))) as Blob | null;
+	if(!blob) throw Error("no blob");
+	const result = URL.createObjectURL(blob);
+
+	document.fonts.delete(fontFace);
+
+	return [blob, result];
+}
+
+--- src/systems/toml.ts ---
+import { BackgroundAsset } from "../../core/assets";
+import { importToml } from "../../core/toml";
+import AssetStore from "./assets";
+
+export function openTomlImportPicker() {
+	if(State.isDirty()) {
+		alert("Note: The current project will be replaced if you proceed. You may want to cancel then save it first.");
+	}
+
+	const input = document.createElement('input');
+	input.type = 'file';
+	input.accept = '.zip,application/zip,application/x-zip,application/x-zip-compressed';
+	input.onchange = (e) => {
+		const file = (e.target as HTMLInputElement).files?.[0];
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = () => {
+				try {
+					const { newTheme, newStore } = importToml(reader.result as ArrayBuffer, true);
+
+					for(const v of Object.values(newStore)) {
+						if(v[0].kind === "background") {
+							const info = v[1] as BackgroundAsset;
+							if(info.backgroundToken.startsWith("system_") || info.foregroundToken.startsWith("system_")) {
+								throw new Error("Themes with dynamic colors aren't supported for editing yet");
+							}
+						}
+					}
+
+					for(const v of Object.values(newTheme.colors)) {
+						if(v.startsWith("system_")) {
+							throw new Error("Themes with dynamic colors aren't supported for editing yet");
+						}
+					}
+					
+					State.newProject("load", () => {
+						State.theme = newTheme;
+
+						for(const [k, v] of Object.entries(newStore)) {
+							AssetStore.loadSaved(k, v[0], v[1], v[2]);
+						}
+					});
+
+					alert("Project imported: " + newTheme.name);
+				}catch(e) {
+					alert("Import failed. " + e);
+				}
+			}
+			reader.readAsArrayBuffer(file);
+		}
+
+--- src/ui/menu.jsx ---
+import Ui from "../ui";
+
+// Extract accelerator from name wxWidgets style with the ampersand preceding the accelerator character
+function getItemName(item) {
+	return item.name.replace("&", "");
+}
+function getItemNameUnderlined(item, underline) {
+	if (underline) {
+		const idx = item.name.indexOf("&");
+		if (idx === -1) return item.name;
+		else return <span>{item.name.substr(0, idx)}<u>{item.name.substr(idx + 1, 1)}</u>{item.name.substr(idx + 2)}</span>
+	} else return getItemName(item);
+}
+function getItemAlt(item) {
+	const idx = item.name.indexOf("&");
+	if (idx === -1) return undefined;
+
+	return item.name[idx + 1];
+}
+
+
+function makePopup(items) {
+	return (
+		<ul className="popup" style={{ display: 'none' }}>
+			{items.map(it => {
+				return (
+					<li className="item">
+						<button disabled={it.enabled ? !it.enabled() : false}
+							onclick={() => {
+								it.action();
+								closeAllPopups();
+							}}
+							oncreate={el => it.el = el}>
+							<span className="label">{it.uname}</span>
+							{it.shortcut && <span className="shortcut">{it.shortcut}</span>}
+						</button>
+					</li>
+				);
+			})}
+		</ul>
+	);
+}
+
+const underlineClass = "underline-accelerators";
+function togglePopup(top, popup) {
+	const showing = popups.includes(popup);
+
+	const underlineEls = Ui.query("." + underlineClass);
+	const wasUnderlineShowing = underlineEls.length > 0;
+	underlineEls.forEach((v) => v.classList.remove(underlineClass));
+
+--- src/windows/AboutWindow.jsx ---
+import Ui from "../ui"
+
+function aboutWindowContents() {
+	return <div style="width: 400px; max-height: 700px; overflow: scroll; padding: 8px;">
+		<h1>Theme Editor</h1>
+		<p>This is an in-development version and is subject to change. It may be unstable, have missing or broken features.</p>
+
+		<h1>Usage</h1>
+		<p>Begin a project in File &gt; New project. You can File &gt; Save at any time for in-browser saving.</p>
+		<p>To set a keyboard background image, add an image to "Other assets", then drag it to Config &gt; Background Image</p>
+		<p>To change keyboard background color, edit keyboardSurface</p>
+		<p>To set a font, add a font to "Other assets", then drag it to Config &gt; Font</p>
+		<p>By default most colors are set to automatic, meaning they're derived from other colors. You can still change them manually. It's recommended to keep them at auto as much as possible, since that normally ensures good color contrast.</p>
+		<p>Many colors come in pairs, for example primary and onPrimary. The "on" version defines the foreground color on that particular color.</p>
+		<p>To change all key colors, edit keyboardContainer in Colors. Also see onKeyboardContainer, keyboardContainerVariant and primary. To change individual key colors, you'll need to use custom borders and matchrules.</p>
+		<p>To customize key borders, add border assets (or generate rectangle in Insert), add a matchrule, then drag the asset to matchrule. Instead of dragging you can also click on the left part of the matchrule to open a select window.</p>
+
+		<h2>Saving</h2>
+		<p>You can click File &gt; Save for an in-browser save. You should get an alert if it was successful.</p>
+		<p>Use File &gt; Export for an exported zip. You can also import a zip. This is useful to backup your theme in case your browser deletes site data.</p>
+
+		<h2>Exporting, publishing</h2>
+		<p>Make sure your theme has no errors before exporting, especially contrast errors. Also double-check the color preview that the UI colors make sense.</p>
+		<p>You can submit your theme for publishing at <a href="https://keyboard-themes.futo.tech/themes/new">https://keyboard-themes.futo.tech/themes/new</a>. You should test your theme in FUTO Keyboard before publishing to make sure there are no last-minute fixes needed, if you can.</p>
+
+		<h2>Borders and icons</h2>
+		<p>Your border assets should be fairly low resolution. As an example, this one is 128x140</p>
+		<img src="example_border.png" />
+		<p>You will need to {Ui.iconEl("sliders")} configure your border assets after adding, in particular set the foreground color.</p>
+		<p>We use <a href="https://en.wikipedia.org/wiki/9-slice_scaling?useskin=vector">9-slicing</a> to allow borders to support arbitrary key dimensions. You need to use the {Ui.iconEl("crop-simple")} crop tool to adjust the slice center when configuring the asset. Example:</p>
+		<img src="example_border_9.png" />
+		<p>Your icons should be white. Example:</p>
+		<img src="example_icon.png" />
+
+		<h2>Matchrule syntax</h2>
+		<p>Matchrules let you match specific keys or types of keys on a layout to apply a border or icon to. Use the autocomplete functionality to discover all available keywords.</p>
+		<p>Multiple keywords apply an AND operation. So don't specify mutually exclusive rules like <code>normal functional</code> as that will exclude everything.</p>
+		<p>Only the first matchrule gets applied. So put more specific ones above more broad ones, e.g. ones with <code>pressed</code> should be above all others.</p>
+		<p>Some common examples:</p>
+		<ul>
+			<li><code>normal</code> - match normal alphabet letter keys</li>
+			<li><code>functional</code> - match darker keys</li>
+			<li><code>action</code> - match the enter key</li>
+			<li><code>functional row -1 col 0</code> - match ?123 key</li>
+			<li><code>icon shift_key</code> - match shift key</li>
+			<li><code>icon action_emoji</code> - match emoji key</li>
+		</ul>
+
+		<h3>State Filters</h3>
+		<p>You can test these by using the arrow pointer tool on the left: {Ui.iconEl("arrow-pointer")}, to click on keyboard keys. Beware that if you override a key's border but don't add a matching pressed rule, there may be no visual indication for it being pressed.</p>
+
+--- src/windows/AssetPickerWindow.jsx ---
+import State from "../state";
+import { openFilePickerWithKind } from "../panels/assets";
+import AssetStore from "../systems/assets";
+import Ui from "../ui";
+import Window from "./WindowWrapper";
+
+let currentTarget = undefined;
+
+function onSelect(fname) {
+	if(!currentTarget) return;
+	if(!AssetStore.store[fname] || (AssetStore.store[fname].meta.kind !== currentTarget.kind)) return;
+
+	currentTarget.callback(fname);
+	currentTarget = undefined;
+	Window.close(AssetPickerWindow);
+}
+
+function contentsOfKind(kind) {
+	let name;
+	if(kind === "background") {
+		name = "Border assets";
+	} else if(kind === "icon") {
+		name = "Icon assets";
+	} else {
+		name = "Other assets";
+	}
+	return <div className="asset-category">
+		<div className="asset-category-header">
+			<h4>{name}</h4>
+			<button title={Ui.tooltipFor("insert.import")} onclick={() => openFilePickerWithKind(kind)}>{Ui.iconEl("plus")}</button>
+		</div>
+		<div>
+			{Object.keys(AssetStore.store).filter((k) => AssetStore.store[k].meta.kind === kind && !AssetStore.store[k].meta.builtin).map((k) => {
+				return <div className="file selectable" onclick={() => onSelect(k)}>
+					<img src={AssetStore.store[k].runtime.preview ?? ""} />
+					<p>{AssetStore.store[k].meta.name}</p>
+				</div>
+			})}
+		</div>
+	</div>
+}
+
+const local = {};
+function assetPickerWindowContents() {
+	State.ev.listen([AssetStore.EV_FILE_ADDED, AssetStore.EV_FILE_REMOVED, AssetStore.EV_IMG_LOADED], refresh);
+	return Ui.namespaced(local, () => <div id="root" style="max-width: 400px;">
+	</div>);
+}
+
+function refresh() {
+
+--- src/windows/ColorPickerWindow.jsx ---
+import { HEXtoRGB } from '../../core/keyboard/color';
+import { HSVtoRGB, RGBtoHEX, RGBtoHSV } from '../color';
+import Ui from "../ui";
+
+function updateColor(newHex) {
+	currField.element.value = newHex;
+	currField.element.dispatchEvent(new InputEvent("input"));
+}
+
+function updateCurrHsv(overrides) {
+	if(currField === undefined) return;
+	currField.hsv = { ...currField.hsv, ...overrides };
+	updateColor(RGBtoHEX(HSVtoRGB(currField.hsv)));
+}
+
+function updateCurrRgb(overrides) {
+	if(currField === undefined) return;
+
+	const currColor = HEXtoRGB(currField.element.value);
+	const newColor = { ...currColor, ...overrides };
+
+	currField.hsv = RGBtoHSV(newColor);
+	updateColor(RGBtoHEX(newColor));
+}
+
+function clamp01(v) {
+	return Math.min(1, Math.max(0, v));
+}
+
+
+function onSVEvent(ev, _kind) {
+	ev.preventDefault();
+	const box = Ui.id.hsvSvBox;
+	const rect = box.getBoundingClientRect();
+
+	const x = ev.clientX;
+	const y = ev.clientY;
+
+	const s = clamp01((x - rect.left) / rect.width);
+	const v = clamp01(1 - (y - rect.top) / rect.height);
+
+	updateCurrHsv({s, v});
+}
+
+function onHEvent(ev, _kind) {
+	ev.preventDefault();
+	const box = Ui.id.hsvSvBox;
+	const rect = box.getBoundingClientRect();
+	const y = ev.clientY;
+	const h = clamp01((y - rect.top) / rect.height);
+
+--- src/windows/ExportWindow.jsx ---
+import State from "../state";
+import { HEXtoRGB } from "../../core/keyboard/color";
+import { toHCT, RGBtoHEX } from "../color";
+import { parseQualifiers } from "../../core/keyboard/qualifiers";
+import { colorPairs } from "../panels/assetconfig";
+import AssetStore from "../systems/assets";
+import Ui from "../ui"
+import { UZIP } from "../../core/vendor/UZIP";
+import { buildMetadataPanel } from "../panels/metadata";
+import { imageSizeLimits } from "../panels/assets";
+
+function formatBytes(bytes, decimals = 1) {
+	if (bytes === 0) return '0 Bytes';
+	const k = 1024;
+	const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+	const i = Math.floor(Math.log(bytes) / Math.log(k));
+	return parseFloat((bytes / Math.pow(k, i)).toFixed(decimals)) + ' ' + sizes[i];
+}
+
+
+const HEADER = `
+#  ▄███████████████                   ▄▄▄████████▒░      ▄▄▄
+# ████████████████████▒░      ██████████████████▒░   ▄█████████▄
+# ░▒▒▒▒▒█████▒▒▒▒▒███▒░        ▒███████████▒▒▒▒▒░  ▄█████████████▄
+#      █████████░░▒▒▒░███░   ███▒░▒▒▒▒█████▒░░░░  ██████▀   ▀██████░
+#     ████████▒▒░ ░░░ ███▒░  ███▒ ░░░░█████▒░    ██████       ██████▒
+#    ▄███▒▒▒▒▒░░     ███▒░  ███▒░     █████▒░    ░██████▄   ▄██████▒░
+#    ███▒░░░░░      ▐████▄▄███▒░      ░█████▒░    ░▒█████████████▒▒░
+#    ██▒░            ▐███████▒░        ░▒██▒░      ░░▒█████████▒▒░
+#    ░▒░              ▒▒▒▒▒▒▒░          ░▒▒░         ░░▒▒▒▒▒▒▒░░░
+#     ░               ░░░░░░░            ░░            ░░░░░░░
+#          ▄██████▄░ ▄██████▄░ ▄██████▄░ ▄██████▄░ ▄██████▄░
+#          ████████▒░████████▒░████████▒░████████▒░████████▒░
+#          ▀██████▀░ ▀██████▀░ ▀██████▀░ ▀██████▀░ ▀██████▀░
+#           ░▒▒▒▒▒░   ░▒▒▒▒▒░   ░▒▒▒▒▒░   ░▒▒▒▒▒░   ░▒▒▒▒▒░
+#          ▄██████▄░ ▄██████▄░ ▄██████▄░ ▄██████▄░ ▄██████▄░
+#          ████████▒░████████▒░████████▒░████████▒░████████▒░
+#          ▀██████▀░ ▀██████▀░ ▀██████▀░ ▀██████▀░ ▀██████▀░
+#           ░▒▒▒▒▒░   ░▒▒▒▒▒░   ░▒▒▒▒▒░   ░▒▒▒▒▒░   ░▒▒▒▒▒░
+#            ░░░░░  ▄█████████████████████████████▄░ ░░░░░
+#                   ███████████████████████████████▒░
+#                   ▀█████████████████████████████▀░
+#                    ░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░
+#                     ░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+#
+#                  FUTO Keyboard Theme Configuration
+#                        Format version: 1.0
+#
+# Although there are comments to help you, please check our guide for
+# more information. It can be found at:
+
+--- src/windows/GenerateRectangleWindow.jsx ---
+import { colorField } from "../panels/colors";
+import AssetStore from "../systems/assets";
+import Ui from "../ui"
+
+function generateRoundedRect(width, height, roundPercent, tint, padding) {
+	const canvas = document.createElement('canvas');
+	canvas.width = width + padding * 2;
+	canvas.height = height + padding * 2;
+	const ctx = canvas.getContext('2d');
+
+	const maxRadius = Math.min(width, height) / 2;
+	const radius = maxRadius * (roundPercent / 100);
+
+	ctx.fillStyle = tint;
+	ctx.beginPath();
+	ctx.roundRect(padding, padding, width, height, radius);
+	ctx.fill();
+
+	return canvas;
+}
+
+
+const local = {};
+
+let numRects = 0;
+function contents() {
+	let backgroundColor = "#ffffff";
+	let foregroundColor = "#000000";
+
+	const previewBg = (newColor) => {
+		backgroundColor = newColor;
+		update();
+	}
+	const previewFg = (newColor) => {
+		foregroundColor = newColor;
+		update();
+	}
+
+	const dom = Ui.namespaced(local, "rectangleGenerator", () => <div className="rectanglegen-window">
+		<div className="rectanglegen-preview" id="preview">
+		</div>
+
+		<div className="rectanglegen-opts">
+			<div>
+				<label className="label-left" for="scale">Diagonal: </label>
+				<input type="range" id="scale" min="64" max="256" value="170" />
+				<span id="scaleVal">170</span>px
+			</div>
+			<div>
+				<label className="label-left" for="aspect">Aspect: </label>
+
+--- src/windows/GoogleFontPickerWindow.jsx ---
+import AssetStore from "../systems/assets";
+import Ui from "../ui"
+
+let local = {};
+let fonts = {};
+let filteredFonts = [];
+let searchQuery = "";
+let selectedCategory = "ALL";
+let loadedFontFamilies = new Set();
+let renderedCount = 0;
+const ITEMS_PER_PAGE = 30;
+
+const CATEGORIES = {
+	ALL: "All",
+	SANS_SERIF: "Sans Serif",
+	SERIF: "Serif",
+	DISPLAY: "Display",
+	HANDWRITING: "Handwriting",
+	MONOSPACE: "Monospace",
+};
+
+function fontPickerContents() {
+	local = {};
+	filteredFonts = [];
+	searchQuery = "";
+	selectedCategory = "ALL";
+	loadedFontFamilies.clear();
+	renderedCount = 0;
+
+	if (Object.keys(fonts).length === 0) {
+		fetch("fonts.json")
+			.then(v => v.json())
+			.then(v => {
+				fonts = v;
+				updateContents();
+			})
+			.catch(err => {
+				console.error("Failed to load fonts:", err);
+				if (local.contents) {
+					local.contents.innerHTML = "Error loading fonts.";
+				}
+			});
+	}
+
+	return Ui.namespaced(local, () => <div id="root" className="font-picker-window">
+		<div id="header" className="font-picker-header">
+			<input
+				id="search"
+				type="text"
+				placeholder="Search fonts..."
+
+--- src/windows/KeyInfoWindow.jsx ---
+import WorkCanvas from "../panels/workcanvas";
+import { insertNewMatchrule } from "../panels/upper";
+import AssetStore from "../systems/assets";
+import Ui from "../ui"
+import Window from "./WindowWrapper";
+
+let dom = undefined;
+let activeKey = undefined;
+function keyInfoWindowContents() {
+	dom = <div style="width: 400px; max-height: 700px; overflow: scroll; padding: 8px;">
+	</div>
+
+	return dom;
+}
+
+export function displayKeyInfo(keyInfo) {
+	Window.spawn(KeyInfoWindow);
+
+	activeKey = keyInfo;
+	WorkCanvas.previewSelector(keyInfo.selectors[keyInfo.selectors.length - 1]);
+
+	const key = activeKey.key;
+	dom.replaceChildren(<div>
+		<section className="key-info-section">
+			<h2>Key info</h2>
+			<div>
+				<div className="key-info-detail-item">
+					<span className="key-info-detail-label">Visual style</span>
+					<span className="key-info-detail-value">{key.visualStyle}</span>
+				</div>
+				<div className="key-info-detail-item">
+					<span className="key-info-detail-label">Row</span>
+					<span className="key-info-detail-value">{key.row}</span>
+				</div>
+				<div className="key-info-detail-item">
+					<span className="key-info-detail-label">Column</span>
+					<span className="key-info-detail-value">{key.column}</span>
+				</div>
+
+				<div className="key-info-detail-item">
+					<span className="key-info-detail-label">Label</span>
+					<span className="key-info-detail-value">{key.label}</span>
+				</div>
+
+				<div className="key-info-detail-item">
+					<span className="key-info-detail-label">Icon</span>
+					<span className="key-info-detail-value">{key.iconId}</span>
+				</div>
+
+				<div className="key-info-detail-item">
+
+--- src/windows/NewProjectWindow.jsx ---
+import { Persistence } from "../db";
+import State from "../state"
+import Ui from "../ui"
+
+function newProjectWindowContents() {
+	return <div>
+		<h2>Recent projects</h2>
+		<div id="recentProjects" oncreate={el => {
+			Persistence.getRecent().then((recent) => {
+				el.replaceChildren(...recent.map((p) =>
+					<button onclick={ () => {
+						Persistence.load(p.uid);
+						Ui.closeWindow(NewProjectWindow);
+					}}>{p.name}</button>
+				))
+			})
+		}}></div>
+		<h2>New project</h2>
+		<button onclick={ () => {
+			State.newProject({});
+			Ui.closeWindow(NewProjectWindow);
+		}}>Blank project</button>
+	</div>
+}
+
+const NewProjectWindow = {
+	name: "New Project",
+	contents: newProjectWindowContents,
+}
+
+export default NewProjectWindow;
+
+--- src/windows/WindowWrapper.jsx ---
+import Ui from "../ui"
+
+
+let windows = {}
+let persistedWindows = {}
+let z = 0
+function WindowWrapper(w) {
+	const contents = (w.persist === true ? persistedWindows[w.name] : null) ?? w.contents();
+	if(w.persist === true) persistedWindows[w.name] = contents;
+
+	const position = 100 + 100 * Object.keys(windows).length;
+
+	return (
+		<div class="win" style={`z-index: ${++z};`}
+			oncreate={el => {
+				windows[w.name] = el
+				el.style.left = `${position}px`
+				el.style.top  = `${position}px`
+			}}>
+			<div class="bar" onmousedown={e => {
+				const el = windows[w.name];
+				el.style.zIndex = ++z
+				const ox = e.clientX - el.offsetLeft, oy = e.clientY - el.offsetTop
+				const move = e => {
+					el.style.left = e.clientX - ox + 'px';
+					el.style.top = e.clientY - oy + 'px';
+				}
+				const up = () => { removeEventListener('mousemove', move); removeEventListener('mouseup', up) }
+				addEventListener('mousemove', move); addEventListener('mouseup', up)
+
+				e.preventDefault();
+			}}>
+				<span class="title">{w.name}</span>
+				<button onclick={() => { closeWindow(w) }}>×</button>
+			</div>
+			<div class="body">{contents}</div>
+		</div>
+	)
+}
+
+const Window = {
+	spawn: spawnWindow,
+	close: closeWindow
+};
+
+function spawnWindow(w) {
+	console.log("spawn",w,windows);
+	if (windows[w.name]) { windows[w.name].style.zIndex = ++z; return }
+	Ui.id.windowRoot.appendChild(WindowWrapper(w))
+}
+
+--- src/color.ts ---
+import { Hct } from "@material/material-color-utilities";
+import { RGBType, ths2 } from "../core/keyboard/color";
+
+export type HCTType = {h: number, c: number, t: number, a: number | undefined};
+export type HSVType = {h: number, s: number, v: number, a: number | undefined};
+
+export function HSVtoRGB(h: number | HSVType, s: number | undefined, v: number | undefined, a: number | undefined): RGBType {
+	let r: number, g: number, b: number;
+	let hue: number, sat: number, val: number, alpha: number;
+	if (typeof h === 'object') {
+		({ h: hue, s: sat, v: val, a: alpha = 1 } = h);
+	} else {
+		hue = h;
+		sat = s!;
+		val = v!;
+		alpha = a ?? 1;
+	}
+	const i = Math.floor(hue * 6);
+	const f = hue * 6 - i;
+	const p = val * (1 - sat);
+	const q = val * (1 - f * sat);
+	const t = val * (1 - (1 - f) * sat);
+	switch (i % 6) {
+	case 0: r = val; g = t; b = p; break;
+	case 1: r = q; g = val; b = p; break;
+	case 2: r = p; g = val; b = t; break;
+	case 3: r = p; g = q; b = val; break;
+	case 4: r = t; g = p; b = val; break;
+
+		// case 5
+	default: r = val; g = p; b = q; break;
+	}
+	return {
+		r: r * 255,
+		g: g * 255,
+		b: b * 255,
+		a: alpha
+	};
+}
+
+export function RGBtoHSV(r: number | RGBType, g: number | undefined, b: number | undefined, a: number | undefined): HSVType {
+	let red: number, grn: number, blu: number, alpha: number;
+	if(typeof r === 'object') {
+		({ r: red, g: grn, b: blu, a: alpha = 1 } = r);
+	} else {
+		red = r;
+		grn = g!;
+		blu = b!;
+		alpha = a ?? 1;
+	}
+
+--- src/db.ts ---
+import { DEFAULT_THEME } from '../core/keyboard/types/Theme';
+import State from './state';
+import { openDB } from "idb";
+import AssetStore from './systems/assets';
+import { AssetMeta, BackgroundAsset, IconAsset, mergeDicts, OtherAsset } from '../core/assets';
+
+const DB_NAME = 'asndajfs';
+const DB_VERSION = 1;
+
+const dbPromise = openDB(DB_NAME, DB_VERSION, {
+	upgrade(db, oldVersion, _newVersion, _ev) {
+		if(oldVersion === 0) {
+			const projectStore = db.createObjectStore("projects", {
+				keyPath: 'uid'
+			});
+
+			projectStore.createIndex("by-modified", "modified", { unique: false });
+			projectStore.createIndex("by-name", "name", { unique: false });
+
+			const assetStore = db.createObjectStore("assets", {
+				keyPath: 'assetName'
+			});
+
+			assetStore.createIndex("by-project", "projectUid", { unique: false });
+			assetStore.createIndex("by-project-name", ["projectUid", "assetName"], { unique: true });
+		}
+	},
+	blocked(_currentVersion, _blockedVersion, _ev) {
+		alert("Blocked, close other tabs");
+	},
+	blocking(_currentVersion, _blockedVersion, _ev) {
+		alert("Blocking, refresh this tab");
+	},
+	terminated() {
+		alert("Terminated.");
+	}
+});
+
+type SavedAsset = {assetName: string, meta: AssetMeta, data: BackgroundAsset | IconAsset | OtherAsset};
+
+async function saveProject() {
+	if(!State.isProjectLoaded) return;
+
+	const db = await dbPromise;
+	const now = Date.now();
+
+	const uid = State.projectUid;
+	if(!uid) return; // undefined/null = no project loaded
+
+	const project = {
+
+--- src/event.js ---
+const Ev = {
+	makeEventBus: () => {
+		const t = new EventTarget();
+		return {
+			target: t,
+			emit: (n, ...p) => t.dispatchEvent(new CustomEvent(n, {detail: p})),
+			listen: (n, c) => Array.isArray(n) ? n.forEach(v => t.addEventListener(v, e => c(...e.detail))) : t.addEventListener(n, e => c(...e.detail)),
+			unlisten: (n, c) => Array.isArray(n) ? n.forEach(v => t.removeEventListener(v, c)) : t.removeEventListener(n, c)
+		};
+	}
+};
+
+export default Ev;
+
+--- src/main.js ---
+import State from "./state";
+import Ui from "./ui";
+
+function main() {
+	State.init();
+	Ui.init();
+}
+
+window.addEventListener('DOMContentLoaded', main);
+--- src/quickh.js ---
+import Ui from "./ui";
+
+let activeNamespaces = [];
+let namespaceCounts = {};
+export function namespaced(namespace, name, constructor) {
+	if(constructor === undefined) {
+		constructor = name;
+		name = "untitled";
+	}
+	namespaceCounts[name] = (namespaceCounts[name] ?? -1) + 1;
+	if(namespaceCounts[name] !== 0) name = name + namespaceCounts[name];
+
+	activeNamespaces.push({ namespace, name });
+	const result = constructor();
+	activeNamespaces.pop();
+	return result;
+}
+
+function activeNamespace() {
+	if(activeNamespaces.length === 0) return null;
+	else return activeNamespaces[activeNamespaces.length - 1];
+}
+
+export default function quickh(type, props, ...children) {
+	if (type === null) {
+		return document.createTextNode(props);
+	}
+
+	const el = document.createElement(type);
+
+	if (props) {
+		if(props["id"] !== undefined) {
+			const namespace = activeNamespace();
+
+			if(namespace) {
+				namespace.namespace[props["id"]] = el;
+				props["id"] = namespace.name + '_' + props["id"];
+			}
+
+			Ui.id[props["id"]] = el;
+		}
+		for (const [k, v] of Object.entries(props)) {
+			if(v === undefined) continue;
+
+			if (k === 'for') {
+				const namespace = activeNamespace();
+				if(namespace) {
+					el.setAttribute("for", namespace.name + '_' + v);
+					continue;
+				}
+
+--- src/state.js ---
+import { Persistence } from './db';
+import Ev from './event';
+import { DEFAULT_THEME } from '../core/keyboard/types/Theme';
+import AssetStore from './systems/assets';
+import { genUniqueName } from '../core/assets';
+
+let uniqueCounter = 0;
+const State = {
+	isProjectLoaded: false,
+	ev: Ev.makeEventBus(),
+	EV_RESET: "reset",
+	EV_LOADED: "projectLoaded",
+	EV_COMMAND: "command",
+	
+	execute: executeCommand,
+	commands: [],
+	redoableCommands: [],
+	
+	unique: () => genUniqueName(uniqueCounter++),
+	projectUid: null,
+	
+	init: initState,
+	
+	redo: redo,
+	undo: undo,
+	canUndo: () => State.commands.length > 1,
+	canRedo: () => State.redoableCommands.length > 0,
+
+	isDirty: () => {
+		if(!State.isProjectLoaded) return false;
+		if(State.commands.length === 0) return false;
+		return State.commands[State.commands.length - 1].saved !== true;
+	},
+	markNonDirty: () => {
+		if(!State.isProjectLoaded) return;
+		if(State.commands.length === 0) return;
+
+		State.commands.forEach((v) => v.saved = undefined);
+		State.commands[State.commands.length - 1].saved = true;
+	},
+	
+	paste: paste,
+	canPaste: () => false,
+
+	newProject: (kind, initializer) => {
+		State.ev.emit(State.EV_RESET);
+		State.theme = structuredClone(DEFAULT_THEME)
+		State.isProjectLoaded = true;
+		State.commands = [];
+		State.redoableCommands = [];
+
+--- src/ui.js ---
+import quickh, { namespaced } from "./quickh";
+import State from "./state";
+import { buildMenuBar } from "./ui/menu";
+import AboutWindow from "./windows/AboutWindow";
+import NewProjectWindow from "./windows/NewProjectWindow";
+import Window from "./windows/WindowWrapper";
+import PanelManager from './panels/main.jsx';
+import WorkCanvas from './panels/workcanvas';
+import AssetsPanel from './panels/assets';
+import GenerateRectangleWindow from "./windows/GenerateRectangleWindow.jsx";
+import ExportWindow from "./windows/ExportWindow.jsx";
+import { openTomlImportPicker } from "./systems/toml.js";
+import GoogleFontPickerWindow from "./windows/GoogleFontPickerWindow.jsx";
+
+const loaded = () => State.isProjectLoaded;
+const menu = [
+	{name: "&File", items: [
+		{ name: "&New / open project...", action: () => Ui.showWindow(NewProjectWindow) },
+		{ name: "&Save", shortcut: "Ctrl+S", enabled: loaded, action: State.saveProject },
+
+		{ name: "&Import theme...", enabled: () => true, action: () => { openTomlImportPicker() } },
+		{ name: "&Export theme...", shortcut: "Ctrl+E", enabled: loaded, action: () => Ui.showWindow(ExportWindow) },
+
+		{ name: "&Publish", enabled: loaded, action: () => {
+			alert("Export the theme, and then submit it here...");
+			open("https://keyboard-themes.futo.tech/themes/new");
+		} }
+	]},
+
+	// should move these to State
+	{name: "&Edit", items: [
+		{ name: "&Undo", shortcut: "Ctrl+Z", enabled: State.canUndo, action: State.undo },
+		{ name: "&Redo", shortcut: "Ctrl+Y", enabled: State.canRedo, action: State.redo },
+
+		{ name: "&Copy render", enabled: loaded, action: WorkCanvas.copy }
+		
+		//{ name: "&Paste", shortcut: "Ctrl+V", enabled: State.canPaste, action: State.paste },
+	]},
+	
+	// should move these to WorkCanvas
+	{name: "&View", items: [
+		{ name: "&Reset to Center", shortcut: "Alt+R", enabled: loaded, action: WorkCanvas.resetZoom },
+		{ name: "Toggle Pixel &Grid", shortcut: "Alt+G", enabled: loaded, action: WorkCanvas.toggleGrid },
+		{ name: "Zoom &In", shortcut: "Ctrl+=", enabled: loaded, action: () => WorkCanvas.increaseZoom(-1) },
+		{ name: "Zoom &Out", shortcut: "Ctrl+-", enabled: loaded, action: () => WorkCanvas.increaseZoom(1) },
+	]},
+	
+	// should move these to Assets(State?)
+	{name: "&Insert", items: [
+		{ name: "&Import from Filesystem...", shortcut: "Ctrl+I", enabled: loaded, action: AssetsPanel.openFilePicker },
+
