@@ -18,8 +18,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.*
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -38,12 +41,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.io.ByteArrayOutputStream
 import java.util.zip.ZipEntry
@@ -54,7 +61,6 @@ data class AssetItem(
     var sliceTop: Float = 0.3f, var sliceBottom: Float = 0.7f, var sliceLeft: Float = 0.3f, var sliceRight: Float = 0.7f
 )
 
-// دالة لإنشاء خلفيات متدرجة جاهزة
 fun createGradientBackground(c1: Int, c2: Int): Bitmap {
     val width = 400; val height = 400
     val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
@@ -113,7 +119,8 @@ fun MainScreen() {
     val context = LocalContext.current
     val prefs = remember { context.getSharedPreferences("futo_theme_prefs", Context.MODE_PRIVATE) }
     val haptic = LocalHapticFeedback.current
-    
+    val scope = rememberCoroutineScope()
+
     var selectedTab by remember { mutableStateOf(0) }
     var isDarkMode by remember { mutableStateOf(prefs.getBoolean("dark_mode", true)) }
     var themeName by remember { mutableStateOf(prefs.getString("theme_name", "My Custom Theme") ?: "My Custom Theme") }
@@ -127,6 +134,7 @@ fun MainScreen() {
     var fontBytes by remember { mutableStateOf<ByteArray?>(null) }
     var assets by remember { mutableStateOf(listOf(AssetItem("btn_normal.png", "normal", "border"), AssetItem("btn_pressed.png", "pressed", "border"), AssetItem("btn_enter.png", "action", "border"))) }
     var currentAssetIndex by remember { mutableStateOf(-1) }
+    var showAbout by remember { mutableStateOf(false) }
 
     fun saveState() {
         prefs.edit().apply {
@@ -188,21 +196,18 @@ fun MainScreen() {
                         IconButton(onClick = { haptic.performHapticFeedback(HapticFeedbackType.LongPress); isDarkMode = !isDarkMode }) { Icon(if (isDarkMode) Icons.Default.LightMode else Icons.Default.DarkMode, contentDescription = "Mode") }
                         IconButton(onClick = { saveProject() }) { Icon(Icons.Default.Save, contentDescription = "Save") }
                         IconButton(onClick = { projectPickerLauncher.launch("*/*") }) { Icon(Icons.Default.FolderOpen, contentDescription = "Load") }
-                        var showAbout by remember { mutableStateOf(false) }
                         IconButton(onClick = { showAbout = true }) { Icon(Icons.Default.Info, contentDescription = "About") }
-                        if (showAbout) {
-                            AlertDialog(
-                                onDismissRequest = { showAbout = false },
-                                title = { Text("حول التطبيق") },
-                                text = { Text("FUTO Theme Studio v1.0\n\nتطبيق أصلي (Native) لإنشاء وتعديل ثيمات لوحة مفاتيح FUTO Keyboard.\n\nتم بناؤه باستخدام Kotlin و Jetpack Compose.") },
-                                confirmButton = {
-                                    TextButton(onClick = { showAbout = false }) { Text("حسناً") }
-                                }
-                            )
-                        }
                     },
                     colors = TopAppBarDefaults.topAppBarColors(containerColor = surfaceColor, titleContentColor = textColorUI, actionIconContentColor = textColorUI)
                 )
+                if (showAbout) {
+                    AlertDialog(
+                        onDismissRequest = { showAbout = false },
+                        title = { Text("حول التطبيق") },
+                        text = { Text("FUTO Theme Studio v1.0\n\nتطبيق أصلي لإنشاء وتعديل ثيمات لوحة مفاتيح FUTO Keyboard.\n\nتم بناؤه باستخدام Kotlin و Jetpack Compose.") },
+                        confirmButton = { TextButton(onClick = { showAbout = false }) { Text("حسناً") } }
+                    )
+                }
             },
             bottomBar = {
                 NavigationBar(containerColor = surfaceColor) {
@@ -233,7 +238,7 @@ fun MainScreen() {
                         keyboardBg, { keyboardBg = it }, keyBg, { keyBg = it }, textColor, { textColor = it },
                         onPickBg = { bgPickerLauncher.launch("image/*") }, onPickFont = { fontPickerLauncher.launch("*/*") },
                         fontName = fontName, hasBackground = backgroundBitmap != null,
-                        previewContent = { InteractiveKeyboardPreview(keyboardBg, keyBg, textColor, backgroundBitmap) }
+                        previewContent = { InteractiveKeyboardPreview(keyboardBg, keyBg, textColor, backgroundBitmap, scope, haptic) }
                     )
                     1 -> BackgroundGalleryScreen(
                         onSelect = { bmp -> haptic.performHapticFeedback(HapticFeedbackType.LongPress); backgroundBitmap = bmp; Toast.makeText(context, "تم تطبيق الخلفية", Toast.LENGTH_SHORT).show() },
@@ -254,11 +259,7 @@ fun BackgroundGalleryScreen(onSelect: (Bitmap) -> Unit, onUpload: () -> Unit) {
         Spacer(modifier = Modifier.height(8.dp))
         Text("اختر خلفية جاهزة أو ارفع صورة من هاتفك", color = Color.Gray, fontSize = 12.sp)
         Spacer(modifier = Modifier.height(16.dp))
-
-        Button(onClick = onUpload, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) {
-            Text("رفع صورة من الهاتف", color = MaterialTheme.colorScheme.onSurface)
-        }
-        
+        Button(onClick = onUpload, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) { Text("رفع صورة من الهاتف", color = MaterialTheme.colorScheme.onSurface) }
         Spacer(modifier = Modifier.height(16.dp))
         Divider(color = Color.DarkGray)
         Spacer(modifier = Modifier.height(16.dp))
@@ -287,13 +288,12 @@ fun BackgroundGalleryScreen(onSelect: (Bitmap) -> Unit, onUpload: () -> Unit) {
 }
 
 @Composable
-fun InteractiveKeyboardPreview(keyboardBg: Color, keyBg: Color, textColor: Color, backgroundBitmap: Bitmap?) {
-    val haptic = LocalHapticFeedback.current
+fun InteractiveKeyboardPreview(keyboardBg: Color, keyBg: Color, textColor: Color, backgroundBitmap: Bitmap?, scope: CoroutineScope, haptic: androidx.compose.ui.hapticfeedback.HapticFeedback) {
     var pressedKey by remember { mutableStateOf<String?>(null) }
 
     Box(modifier = Modifier.fillMaxWidth().height(200.dp).background(keyboardBg, RoundedCornerShape(8.dp))) {
         if (backgroundBitmap != null) {
-            Image(bitmap = backgroundBitmap.asImageBitmap(), contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = androidx.compose.ui.layout.ContentScale.Crop)
+            Image(bitmap = backgroundBitmap.asImageBitmap(), contentDescription = null, modifier = Modifier.fillMaxSize(), contentScale = ContentScale.Crop)
         }
         Column(modifier = Modifier.fillMaxSize().padding(8.dp)) {
             val rows = listOf(listOf("q", "w", "e", "r", "t", "y", "u", "i", "o", "p"), listOf("a", "s", "d", "f", "g", "h", "j", "k", "l"), listOf("⇧", "z", "x", "c", "v", "b", "n", "m", "⌫"))
@@ -307,7 +307,7 @@ fun InteractiveKeyboardPreview(keyboardBg: Color, keyBg: Color, textColor: Color
                                 .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {
                                     haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                                     pressedKey = letter
-                                    kotlinx.coroutines.MainScope().launch { delay(150); if (pressedKey == letter) pressedKey = null }
+                                    scope.launch { delay(150); if (pressedKey == letter) pressedKey = null }
                                 }, 
                             contentAlignment = Alignment.Center
                         ) { 
@@ -355,8 +355,8 @@ fun exportCompleteTheme(context: Context, name: String, author: String, bgColor:
 fun EditorScreen(themeName: String, onNameChange: (String) -> Unit, themeAuthor: String, onAuthorChange: (String) -> Unit, keyboardBg: Color, onBgChange: (Color) -> Unit, keyBg: Color, onKeyChange: (Color) -> Unit, textColor: Color, onTextChange: (Color) -> Unit, onPickBg: () -> Unit, onPickFont: () -> Unit, fontName: String?, hasBackground: Boolean, previewContent: @Composable () -> Unit) {
     Column(modifier = Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(16.dp)) {
         previewContent(); Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(value = themeName, onValueChange = onNameChange, label = { Text("اسم الثيم") }, modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.outlinedTextFieldColors(textColor = MaterialTheme.colorScheme.onSurface)); Spacer(modifier = Modifier.height(8.dp))
-        OutlinedTextField(value = themeAuthor, onValueChange = onAuthorChange, label = { Text("المصمم") }, modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.outlinedTextFieldColors(textColor = MaterialTheme.colorScheme.onSurface)); Spacer(modifier = Modifier.height(16.dp))
+        OutlinedTextField(value = themeName, onValueChange = onNameChange, label = { Text("اسم الثيم") }, modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface)); Spacer(modifier = Modifier.height(8.dp))
+        OutlinedTextField(value = themeAuthor, onValueChange = onAuthorChange, label = { Text("المصمم") }, modifier = Modifier.fillMaxWidth(), colors = TextFieldDefaults.colors(focusedTextColor = MaterialTheme.colorScheme.onSurface, unfocusedTextColor = MaterialTheme.colorScheme.onSurface)); Spacer(modifier = Modifier.height(16.dp))
         ColorPickerRow("لون الخلفية", keyboardBg, onBgChange); Spacer(modifier = Modifier.height(8.dp)); ColorPickerRow("لون المفاتيح", keyBg, onKeyChange); Spacer(modifier = Modifier.height(8.dp)); ColorPickerRow("لون النص", textColor, onTextChange); Spacer(modifier = Modifier.height(16.dp))
         Button(onClick = onPickBg, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) { Text(if (hasBackground) "تغيير صورة الخلفية" else "اختيار صورة خلفية", color = MaterialTheme.colorScheme.onSurface) }; Spacer(modifier = Modifier.height(8.dp))
         Button(onClick = onPickFont, modifier = Modifier.fillMaxWidth(), colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)) { Text(if (fontName != null) "تغيير الخط ($fontName)" else "اختيار خط", color = MaterialTheme.colorScheme.onSurface) }
