@@ -371,7 +371,7 @@ fun AssetsScreen(assets: List<AssetItem>, onPickImage: (Int) -> Unit, onUpdateAs
         assets.forEachIndexed { index, asset ->
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp).background(MaterialTheme.colorScheme.surfaceVariant, RoundedCornerShape(8.dp))) {
                 Row(modifier = Modifier.fillMaxWidth().clickable { expandedIndex = if (expandedIndex == index) -1 else index }.padding(12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    if (asset.bitmap != null) Image(bitmap = asset.bitmap.asImageBitmap(), contentDescription = null, modifier = Modifier.size(40.dp)) else Icon(Icons.Default.AddPhotoAlternate, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(40.dp))
+                    asset.bitmap?.let { bmp -> Image(bitmap = bmp.asImageBitmap(), contentDescription = null, modifier = Modifier.size(40.dp)) } ?: Icon(Icons.Default.AddPhotoAlternate, contentDescription = null, tint = Color.Gray, modifier = Modifier.size(40.dp))
                     Spacer(modifier = Modifier.width(12.dp)); Text(asset.name, color = MaterialTheme.colorScheme.onSurface); Spacer(modifier = Modifier.weight(1f)); Icon(if (expandedIndex == index) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown, contentDescription = null, tint = Color.Gray)
                 }
                 if (expandedIndex == index) {
