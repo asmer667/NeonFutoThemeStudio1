@@ -1209,3 +1209,15 @@ a:visited {
 }
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+
+/* === دعم التمرير للشاشات الصغيرة === */
+html, body {
+    overflow-y: auto !important;
+    height: 100% !important;
+}
+.window, .dialog {
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+}
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }

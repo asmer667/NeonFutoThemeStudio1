@@ -1,65 +1,14 @@
 <!DOCTYPE html>
-<html translate="no" lang="ar" dir="rtl">
+<html translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="main.css" rel="stylesheet" />
-    <link href="mobile-theme.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>FUTO Theme Studio</title>
-    <link href="hide-ui.css" rel="stylesheet" />
+    <title>FUTO Theme Editor</title>
 </head>
 <body>
-    <!-- الشريط العلوي -->
-    <header class="top-bar">
-        <div style="display:flex; align-items:center; gap:8px;">
-            <i class="fa-solid fa-keyboard" style="color: #8b5cf6;"></i>
-            <h1>FUTO THEME STUDIO</h1>
-        </div>
-        <button id="lang-toggle" class="lang-btn" onclick="toggleLanguage()" style="background:#333; color:white; border:none; padding:5px 10px; border-radius:15px;">عربي</button>
-    </header>
-
-    <!-- التبويبات الرئيسية -->
-    <div class="main-tabs">
-        <div class="tab active">المطابقات</div>
-        <div class="tab">الأصول</div>
-        <div class="tab">الألوان</div>
-        <div class="tab">الإعدادات</div>
-    </div>
-
-    <!-- الهيكل -->
-    <div class="app-layout">
-        <!-- القائمة الجانبية (الأدوات) -->
-        <div class="sidebar-tools">
-            <i class="fa-solid fa-hand tool-icon"></i>
-            <i class="fa-solid fa-magnifying-glass tool-icon"></i>
-            <i class="fa-solid fa-arrow-pointer tool-icon active"></i>
-            <i class="fa-solid fa-crop-simple tool-icon"></i>
-            <i class="fa-solid fa-pen tool-icon"></i>
-        </div>
-
-        <!-- مساحة المحرر الأساسي -->
-        <div id="__core" class="editor-area"></div>
-    </div>
-
-    <!-- الشريط السفلي -->
-    <nav class="bottom-nav">
-        <div class="nav-item"><i class="fa-solid fa-house"></i><span>الرئيسية</span></div>
-        <div class="nav-item active"><i class="fa-solid fa-palette"></i><span>المحرر</span></div>
-        <div class="nav-item"><i class="fa-solid fa-eye"></i><span>المعاينة</span></div>
-        <div class="nav-item"><i class="fa-solid fa-download"></i><span>استيراد</span></div>
-        <div class="nav-item"><i class="fa-solid fa-share-from-square"></i><span>تصدير</span></div>
-    </nav>
-
+    <div id="__core"></div>
     <script src="js/main.js"></script>
-    <script>
-        // زر تبديل اللغة (بسيط)
-        function toggleLanguage() {
-            const isAr = document.documentElement.dir === 'rtl';
-            document.documentElement.dir = isAr ? 'ltr' : 'rtl';
-            document.getElementById('lang-toggle').innerText = isAr ? 'EN' : 'عربي';
-        }
-    </script>
-    <script src="bridge.js"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-name: Build Release APK
+name: Build APK (Original WebView)
 
 on:
   push:
@@ -17,15 +17,15 @@ jobs:
         with:
           node-version: 20
 
-      - name: Build Web Engine
+      - name: Install dependencies and build web app
         run: |
           npm install
           npm run build
 
-      - name: Copy Web Assets
+      - name: Copy web build to Android assets
         run: |
-          mkdir -p android-native/app/src/main/assets/www
-          cp -r dist/* android-native/app/src/main/assets/www/
+          mkdir -p android/app/src/main/assets/www
+          cp -r dist/* android/app/src/main/assets/www/
 
       - name: Setup JDK 17
         uses: actions/setup-java@v4
@@ -38,26 +38,12 @@ jobs:
         with:
           gradle-version: '8.2'
 
-      - name: Build Release APK
-        working-directory: android-native
-        run: |
-          # بناء النسخة الموقعة (Release)
-          gradle assembleRelease --no-daemon
+      - name: Build APK
+        working-directory: android
+        run: gradle assembleDebug --no-daemon
 
-      - name: Sign APK (Debug Signing for Release)
-        run: |
-          # استخدام أدوات الأندرويد لتوقيع الـ APK
-          BUILD_TOOLS=$(ls $ANDROID_HOME/build-tools/ | tail -1)
-          APKSIGNER="$ANDROID_HOME/build-tools/$BUILD_TOOLS/apksigner"
-          
-          # نسخ الملف الأصلي
-          cp android-native/app/build/outputs/apk/release/app-release-unsigned.apk android-native/app/build/outputs/apk/release/app-release-signed.apk
-          
-          # توقيع الملف (باستخدام مفتاح التصحيح الافتراضي أو المفتاح الذي أنشأناه)
-          $APKSIGNER sign --ks android-native/release.keystore --ks-pass pass:123456 --key-pass pass:123456 --ks-key-alias futo_key android-native/app/build/outputs/apk/release/app-release-signed.apk
-
-      - name: Upload Release APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: futo-theme-studio-release
-          path: android-native/app/build/outputs/apk/release/app-release-signed.apk
+          name: futo-theme-editor-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
