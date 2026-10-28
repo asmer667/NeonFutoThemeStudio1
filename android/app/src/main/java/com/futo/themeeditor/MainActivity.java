@@ -37,6 +37,11 @@ public class MainActivity extends Activity {
         settings.setAllowContentAccess(true);
         settings.setAllowFileAccessFromFileURLs(true);
         settings.setAllowUniversalAccessFromFileURLs(true);
+        settings.setAllowFileAccessFromFileURLs(true);
+        // تخطي حماية CORS لتحميل الخطوط والصور
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
         settings.setUseWideViewPort(true);
         // السماح بتحميل الخطوط والصور من الإنترنت
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
