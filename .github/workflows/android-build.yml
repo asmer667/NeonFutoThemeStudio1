@@ -1,4 +1,4 @@
-name: Build APK (Original WebView)
+name: Build Release APK
 
 on:
   push:
@@ -12,21 +12,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies and build web app
-        run: |
-          npm install
-          npm run build
-
-      - name: Copy web build to Android assets
-        run: |
-          mkdir -p android/app/src/main/assets/www
-          cp -r dist/* android/app/src/main/assets/www/
-
       - name: Setup JDK 17
         uses: actions/setup-java@v4
         with:
@@ -38,12 +23,40 @@ jobs:
         with:
           gradle-version: '8.2'
 
-      - name: Build APK
-        working-directory: android
-        run: gradle assembleDebug --no-daemon
+      - name: Create Keystore
+        run: |
+          keytool -genkey -v -keystore release.keystore -alias futo_key -keyalg RSA -keysize 2048 -validity 10000 -storepass 123456 -keypass 123456 -dname "CN=FUTO, OU=Dev, O=FUTO, L=City, S=State, C=US"
+          mv release.keystore android-native/app/
+
+      - name: Configure Signing
+        run: |
+          cat >> android-native/app/build.gradle.kts << 'EOT'
+          android {
+              signingConfigs {
+                  create("release") {
+                      storeFile = file("release.keystore")
+                      storePassword = "123456"
+                      keyAlias = "futo_key"
+                      keyPassword = "123456"
+                  }
+              }
+              buildTypes {
+                  getByName("release") {
+                      signingConfig = signingConfigs.getByName("release")
+                      isMinifyEnabled = true
+                      isShrinkResources = true
+                      proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+                  }
+              }
+          }
+          EOT
+
+      - name: Build Release APK
+        working-directory: android-native
+        run: gradle assembleRelease --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: futo-theme-editor-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: futo-theme-studio-release
+          path: android-native/app/build/outputs/apk/release/app-release.apk
