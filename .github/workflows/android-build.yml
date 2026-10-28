@@ -28,9 +28,10 @@ jobs:
           keytool -genkey -v -keystore release.keystore -alias futo_key -keyalg RSA -keysize 2048 -validity 10000 -storepass 123456 -keypass 123456 -dname "CN=FUTO, OU=Dev, O=FUTO, L=City, S=State, C=US"
           mv release.keystore android-native/app/
 
-      - name: Configure Signing
+      - name: Add Signing Config
         run: |
           cat >> android-native/app/build.gradle.kts << 'EOT'
+          
           android {
               signingConfigs {
                   create("release") {
@@ -43,9 +44,6 @@ jobs:
               buildTypes {
                   getByName("release") {
                       signingConfig = signingConfigs.getByName("release")
-                      isMinifyEnabled = true
-                      isShrinkResources = true
-                      proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
                   }
               }
           }
